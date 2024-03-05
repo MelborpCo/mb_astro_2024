@@ -1,0 +1,515 @@
+---
+const { media } = Astro.props
+
+const itemClasses = []
+media.team.forEach((item) => {
+    const classAr: string[] = ['teamb']
+    if (item.inicio !== '') {
+        classAr.push(`s-${item.inicio}`)
+    }
+    if (item.fin !== '') {
+        classAr.push(`e-${item.fin}`)
+    }
+    if (item.ancho !== '') {
+        classAr.push(`sp-${item.ancho}`)
+    }
+    if (item.z_index !== '') {
+        classAr.push(`p${item.z_index}`)
+    }
+    if (item.ubicacion !== '') {
+        classAr.push(`${item.ubicacion}`)
+    }
+
+    if (item.abajo !== '') {
+        classAr.push(`pm-${item.abajo}`)
+    }
+    if (item.arriba !== '') {
+        classAr.push(`pti-${item.arriba}`)
+    }
+    if (item.alto !== '') {
+        classAr.push(`${item.alto}`)
+    }
+    if (item.fuente !== '') {
+        classAr.push(`${item.fuente}`)
+    }
+    if (item.ubicacion_texto !== '') {
+        classAr.push(`x-${item.ubicacion_texto}`)
+    }
+    if (item.ubicacion_texto2 !== '') {
+        classAr.push(`y-${item.ubicacion_texto2}`)
+    }
+    itemClasses.push(classAr.join(' '))
+})
+console.log(itemClasses)
+---
+
+<mbp-broken-team id={'teams-' + media._uid} class="media_broken">
+    {
+        media.team.map((item, i) => {
+            return (
+                <>
+                    <div id={'team-' + item._uid} class={itemClasses[i]}>
+                        <div class="item_int">
+                            <div class="info anim">
+                                <svg class="arrow-team" viewBox="0 0 45 45">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(1.000000, 1.000000)" stroke="#000" stroke-width="1.46">
+                                            <g id="arrw">
+                                                <line
+                                                    x1="42.748"
+                                                    y1="42.748"
+                                                    x2="0"
+                                                    y2="0"
+                                                    transform="translate(21.374000, 21.374000) scale(-1, 1) translate(-21.374000, -21.374000) "
+                                                />
+                                                <polyline
+                                                    transform="translate(21.373800, 21.374200) scale(-1, 1) translate(-21.373800, -21.374200) "
+                                                    points="42.3738 0.3742 0.3738 0.3742 0.3738 42.3742"
+                                                />
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <h3>{item.nombre}</h3>
+                                <h4>{item.cargo}</h4>
+                            </div>
+
+                            <div class="foto">
+                                <img src={item.foto.filename + '/m/'} alt={item.nombre} class="vlazy" />
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        })
+    }
+</mbp-broken-team>
+<script>
+    import gsap from 'gsap'
+    class MbpBrokenTeam extends HTMLElement {
+        constructor() {
+            super()
+            const id = '#' + this.id
+            const mm = gsap.matchMedia()
+            mm.add('(min-width: 640px)', () => {
+                const tl_MbpProyectoMedia = gsap.timeline({
+                    paused: true,
+                    ease: 'power2.out',
+                    delay: 0.3,
+                    repeat: 0,
+                    overwrite: 'auto',
+                    onStart: () => {},
+                    onComplete: () => {},
+                })
+                tl_MbpProyectoMedia.fromTo(
+                    `${id}`,
+                    {
+                        autoAlpha: 0,
+                    },
+                    {
+                        autoAlpha: 1,
+                        duration: 0.5,
+                        ease: 'power2.inOut',
+                    },
+                )
+                tl_MbpProyectoMedia.fromTo(
+                    `${id} .teamb img`,
+                    {
+                        autoAlpha: 0,
+                        clipPath: 'inset(0% 100% 0% 0%)',
+                    },
+                    {
+                        autoAlpha: 1,
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 0.6,
+                        stagger: 0.2,
+                        ease: 'power2.inOut',
+                    },
+                    '-=0.2',
+                )
+
+                // interesection
+                function displayEntry(entry) {
+                    if (entry.isIntersecting) {
+                        tl_MbpProyectoMedia.play()
+                    } else {
+                    }
+                }
+                const callback = (entries, observer) => {
+                    entries.forEach((entry) => {
+                        displayEntry(entry)
+                    })
+                }
+                const observer = new IntersectionObserver(callback)
+                observer.observe(this)
+            })
+        }
+    }
+    customElements.define('mbp-broken-team', MbpBrokenTeam)
+</script>
+<style>
+    .media_broken {
+        @apply md:opacity-0 my-0 grid grid-cols-1 w-full lg:my-16 lg:grid-cols-12 lg:grid-rows-1 lg:gap-4 lg:px-0;
+
+        &.pgap-1 {
+            @apply gap-1;
+        }
+        &.pgap-2 {
+            @apply gap-2;
+        }
+        &.pgap-3 {
+            @apply gap-3;
+        }
+        &.pgap-4 {
+            @apply gap-4;
+        }
+        &.pgap-5 {
+            @apply gap-5;
+        }
+        &.pgap-6 {
+            @apply gap-6;
+        }
+        &.pgap-7 {
+            @apply gap-7;
+        }
+        &.pgap-8 {
+            @apply gap-8;
+        }
+        &.pgap-9 {
+            @apply gap-9;
+        }
+        &.pgap-10 {
+            @apply gap-10;
+        }
+        &.pgap-11 {
+            @apply gap-11;
+        }
+        &.pgap-12 {
+            @apply gap-12;
+        }
+
+        .teamb {
+            @apply lg:row-span-full lg:mb-4;
+            img {
+                @apply md:opacity-0 aspect-team object-cover object-center w-full h-full;
+            }
+            &.pz-0 {
+                @apply z-0;
+            }
+            &.pz-10 {
+                @apply z-10;
+            }
+            &.pz-20 {
+                @apply z-20;
+            }
+            &.pz-30 {
+                @apply z-30;
+            }
+            &.pz-40 {
+                @apply z-40;
+            }
+            &.pz-50 {
+                @apply z-50;
+            }
+
+            &.s-1 {
+                @apply lg:col-start-1;
+            }
+            &.s-2 {
+                @apply lg:col-start-2;
+            }
+            &.s-3 {
+                @apply lg:col-start-3;
+            }
+            &.s-4 {
+                @apply lg:col-start-4;
+            }
+            &.s-5 {
+                @apply lg:col-start-5;
+            }
+            &.s-6 {
+                @apply lg:col-start-6;
+            }
+            &.s-7 {
+                @apply lg:col-start-7;
+            }
+            &.s-8 {
+                @apply lg:col-start-8;
+            }
+            &.s-9 {
+                @apply lg:col-start-9;
+            }
+            &.s-10 {
+                @apply lg:col-start-10;
+            }
+            &.s-11 {
+                @apply lg:col-start-11;
+            }
+            &.s-12 {
+                @apply lg:col-start-12;
+            }
+
+            &.e-1 {
+                @apply lg:col-end-1;
+            }
+            &.e-2 {
+                @apply lg:col-end-2;
+            }
+            &.e-3 {
+                @apply lg:col-end-3;
+            }
+            &.e-4 {
+                @apply lg:col-end-4;
+            }
+            &.e-5 {
+                @apply lg:col-end-5;
+            }
+            &.e-6 {
+                @apply lg:col-end-6;
+            }
+            &.e-7 {
+                @apply lg:col-end-7;
+            }
+            &.e-8 {
+                @apply lg:col-end-8;
+            }
+            &.e-9 {
+                @apply lg:col-end-9;
+            }
+            &.e-10 {
+                @apply lg:col-end-10;
+            }
+            &.e-11 {
+                @apply lg:col-end-11;
+            }
+            &.e-12 {
+                @apply lg:col-end-12;
+            }
+            &.e-13 {
+                @apply lg:col-end-13;
+            }
+
+            &.sp-1 {
+                @apply lg:col-span-1;
+            }
+            &.sp-2 {
+                @apply lg:col-span-2;
+            }
+            &.sp-3 {
+                @apply lg:col-span-3;
+            }
+            &.sp-4 {
+                @apply lg:col-span-4;
+            }
+            &.sp-5 {
+                @apply lg:col-span-5;
+            }
+            &.sp-6 {
+                @apply lg:col-span-6;
+            }
+            &.sp-7 {
+                @apply lg:col-span-7;
+            }
+            &.sp-8 {
+                @apply lg:col-span-8;
+            }
+            &.sp-9 {
+                @apply lg:col-span-9;
+            }
+            &.sp-10 {
+                @apply lg:col-span-10;
+            }
+            &.sp-11 {
+                @apply lg:col-span-11;
+            }
+            &.sp-12 {
+                @apply lg:col-span-12;
+            }
+            &.pm-0 {
+                @apply lg:mb-0;
+            }
+            &.pm-2 {
+                @apply lg:mb-6;
+            }
+            &.pm-4 {
+                @apply lg:mb-8;
+            }
+            &.pm-6 {
+                @apply lg:mb-10;
+            }
+            &.pm-8 {
+                @apply lg:mb-12;
+            }
+            &.pm-10 {
+                @apply lg:mb-14;
+            }
+            &.pm-12 {
+                @apply lg:mb-16;
+            }
+            &.pm-14 {
+                @apply lg:mb-20;
+            }
+            &.pm-16 {
+                @apply lg:mb-24;
+            }
+            &.pm-18 {
+                @apply lg:mb-28;
+            }
+            &.pm-20 {
+                @apply lg:mb-32;
+            }
+
+            &.pti-0 {
+                @apply lg:mt-0;
+            }
+            &.pti-2 {
+                @apply lg:mt-6;
+            }
+            &.pti-4 {
+                @apply lg:mt-8;
+            }
+            &.pti-6 {
+                @apply lg:mt-10;
+            }
+            &.pti-8 {
+                @apply lg:mt-12;
+            }
+            &.pti-10 {
+                @apply lg:mt-14;
+            }
+            &.pti-12 {
+                @apply lg:mt-16;
+            }
+            &.pti-14 {
+                @apply lg:mt-20;
+            }
+            &.pti-16 {
+                @apply lg:mt-24;
+            }
+            &.pti-18 {
+                @apply lg:mt-28;
+            }
+            &.pti-20 {
+                @apply lg:mt-32;
+            }
+            .item_int {
+                @apply mb-12 grid grid-cols-6 grid-rows-6 gap-2 lg:mb-0;
+                .hv {
+                    @apply z-30 col-start-1 col-end-5 row-start-1 row-end-6 hidden p-8 text-sm leading-tight;
+                }
+                .foto {
+                    @apply z-10 col-start-1 col-end-7 row-start-1 row-end-7 overflow-hidden;
+                }
+                .info {
+                    @apply z-20;
+                    .arrow-team {
+                        @apply mx-auto mb-2 h-6 w-6;
+                    }
+                    h3 {
+                        line-height: 1em !important;
+                        @apply mb-2 uppercase;
+                    }
+                    h4 {
+                        line-height: 1em !important;
+                    }
+                }
+            }
+            &.x-left {
+                .info {
+                    @apply col-start-1 col-end-4 ml-4 lg:ml-0;
+                }
+            }
+            &.x-right {
+                .info {
+                    @apply col-start-4 col-end-7 mr-4 text-right lg:mr-0;
+                    .arrow-team {
+                        @apply ml-auto;
+                    }
+                }
+            }
+            &.y-up {
+                .info {
+                    @apply row-start-1 row-end-3 self-start pt-4;
+                }
+            }
+            &.y-down {
+                .info {
+                    @apply row-start-4 row-end-7 self-end pb-4;
+                }
+            }
+
+            &.grande {
+                .info {
+                    h3 {
+                        @apply mb-2 lg:text-xl;
+                    }
+                    h4 {
+                        @apply lg:text-lg;
+                    }
+                }
+            }
+            &.pequeno {
+                .info {
+                    h3 {
+                        @apply lg:text-lg;
+                    }
+                    h4 {
+                        @apply lg:text-sm;
+                    }
+                }
+            }
+
+            &.x-left.grande {
+                .info {
+                    @apply lg:-translate-x-10;
+                    h4 {
+                        @apply lg:ml-4;
+                    }
+                }
+            }
+            &.x-right.grande {
+                .info {
+                    @apply lg:translate-x-10;
+                    h4 {
+                        @apply lg:mr-4;
+                    }
+                }
+            }
+            &.x-left.pequeno {
+                .info {
+                    @apply pl-4;
+                }
+            }
+            &.x-right.pequeno {
+                .info {
+                    @apply pr-4;
+                }
+            }
+            &.y-up.grande {
+                .info {
+                    @apply lg:pt-10;
+                }
+            }
+            &.y-down.grande {
+                .info {
+                    @apply lg:pb-10;
+                }
+            }
+            &.y-up.pequeno {
+                .info {
+                    @apply lg:pt-4;
+                }
+            }
+            &.y-down.pequeno {
+                .info {
+                    @apply lg:pb-4;
+                }
+            }
+
+            &.full {
+            }
+            &.half {
+            }
+        }
+    }
+</style>

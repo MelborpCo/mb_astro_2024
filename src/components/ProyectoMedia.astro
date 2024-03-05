@@ -1,0 +1,87 @@
+---
+import ProyectoVideo from '../components/ProyectoVideo.astro'
+import ProyectoBroken from '../components/ProyectoBroken.astro'
+
+const { media } = Astro.props
+---
+
+<mbp-media id={`media_${media._uid}`} class="media">
+    <div class="media_int mbp__wrapper">
+        {media.component == 'video' && <ProyectoVideo media={media} />}
+        {media.component == 'broken' && <ProyectoBroken media={media} />}
+
+        <!-- 
+        <ProyectoImagenDerecha v-if="media.component == 'Imagen derecha'" :media="media" />
+        <ProyectoBroken v-if="media.component == 'broken'" :media="media" /> -->
+    </div>
+</mbp-media>
+
+<style>
+    .media {
+        @apply overflow-hidden md:opacity-0;
+    }
+</style>
+
+<script>
+    import gsap from 'gsap'
+    class MbpProyectoMedia extends HTMLElement {
+        constructor() {
+            super()
+
+            const id = '#' + this.id
+            const mm = gsap.matchMedia()
+            mm.add('(min-width: 640px)', () => {
+                const tl_MbpProyectoMedia = gsap.timeline({
+                    paused: true,
+                    ease: 'power2.out',
+                    delay: 0.3,
+                    repeat: 0,
+                    overwrite: 'auto',
+                    onStart: () => {},
+                    onComplete: () => {},
+                })
+                tl_MbpProyectoMedia.fromTo(
+                    `${id}`,
+                    {
+                        autoAlpha: 0,
+                    },
+                    {
+                        autoAlpha: 1,
+                        duration: 0.5,
+                        ease: 'power2.inOut',
+                    },
+                )
+                tl_MbpProyectoMedia.fromTo(
+                    `${id} .broken_text`,
+                    {
+                        autoAlpha: 0,
+                        clipPath: 'inset(0% 100% 0% 0%)',
+                    },
+                    {
+                        autoAlpha: 1,
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 0.5,
+                        ease: 'power2.inOut',
+                    },
+                    '-=0.2',
+                )
+
+                // interesection
+                function displayEntry(entry) {
+                    if (entry.isIntersecting) {
+                        tl_MbpProyectoMedia.play()
+                    } else {
+                    }
+                }
+                const callback = (entries, observer) => {
+                    entries.forEach((entry) => {
+                        displayEntry(entry)
+                    })
+                }
+                const observer = new IntersectionObserver(callback)
+                observer.observe(this)
+            })
+        }
+    }
+    customElements.define('mbp-media', MbpProyectoMedia)
+</script>

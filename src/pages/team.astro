@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro'
+import TeamBroken from '../components/TeamBroken.astro'
+
+import { useStoryblokApi } from '@storyblok/astro'
+const storyblokApi = useStoryblokApi()
+
+const { data } = await storyblokApi
+    .get('cdn/stories/team', {
+        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+    })
+    .catch((e) => {
+        console.error(e)
+        return { data: {} }
+    })
+const story = data.story
+---
+
+<!-- <StoryblokComponent blok={story.content} /> -->
+<Layout story_seo={story.content.seo}>
+    <section id="mbp__header" class="mbp__header">
+        <div class="mbp__wrapper">
+            <h1 class="mbp__title">
+                <span>{story.content.titulo[0].titulo1}</span>
+                <span>{story.content.titulo[0].titulo2}</span>
+                <span>{story.content.titulo[0].titulo3}</span>
+            </h1>
+        </div>
+    </section>
+    <section class="team_people mbp__wrapper">
+        <div class="team_people_grid">
+            {
+                story.content.teams.map((team, i) => {
+                    return <TeamBroken media={team} />
+                })
+            }
+        </div>
+    </section>
+</Layout>

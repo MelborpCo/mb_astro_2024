@@ -1,0 +1,149 @@
+---
+import { renderRichText } from '@storyblok/astro'
+import { Image } from 'astro:assets'
+const { proyecto } = Astro.props
+---
+
+<div class="menu__item">
+    <a class="menu__item-link">{proyecto.content.nombre}</a>
+    <div class="menu__item_imgs">
+        <Image
+            class="menu__item-img img_1"
+            src={proyecto.content.home[0].media1.filename + '/m/500x600'}
+            alt={proyecto.content.nombre}
+            width="500"
+            height="600"
+        />
+        <Image
+            class="menu__item-img img_2"
+            src={proyecto.content.home[0].media2.filename + '/m/500x600'}
+            alt={proyecto.content.nombre}
+            width="500"
+            height="600"
+        />
+        <Image
+            class="menu__item-img img_3"
+            src={proyecto.content.home[0].media3.filename + '/m/500x600'}
+            alt={proyecto.content.nombre}
+            width="500"
+            height="600"
+        />
+    </div>
+    <div class="marquee">
+        <div class="marquee__inner" aria-hidden="true">
+            <span>{proyecto.content.cliente}</span>
+            <b>{proyecto.content.nombre}</b>
+            <span>{proyecto.content.cliente}</span>
+            <b>{proyecto.content.nombre}</b>
+            <span>{proyecto.content.cliente}</span>
+            <b>{proyecto.content.nombre}</b>
+            <span>{proyecto.content.cliente}</span>
+            <b>{proyecto.content.nombre}</b>
+        </div>
+    </div>
+    <div class="menu__item_text" set:html={renderRichText(proyecto.content.intro)}>Showreel</div>
+</div>
+
+<style>
+    .menu__item {
+        @apply cursor-default relative w-full;
+
+        .menu__item-link {
+            -webkit-text-stroke: 0.5px var(--color-primary-400);
+            text-stroke: 0.5px var(--color-primary-400);
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            color: transparent;
+            transition: all 0.4s;
+            @apply text-[5vw] container mx-auto cursor-pointer relative font-head font-thin uppercase flex flex-row gap-2 items-start justify-start text-nowrap leading-none;
+            &:hover {
+                @apply opacity-0 duration-[0.4s] -translate-x-7;
+            }
+            &::before {
+                all: initial;
+                counter-increment: menu;
+                content: counter(menu);
+                pointer-events: none;
+                @apply font-monospace block;
+            }
+        }
+        .menu__item_text {
+            @apply container mx-auto select-none opacity-10;
+        }
+        .menu__item_imgs {
+            @apply flex flex-row w-screen justify-end absolute h-[30vh] max-h-[600px] top-[50%] left-0 pointer-events-none opacity-0;
+            .menu__item-img {
+                pointer-events: none;
+                @apply object-cover pointer-events-none h-full  aspect-home opacity-0 transition-all duration-500;
+                &.img_1 {
+                    transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
+                    @apply delay-0 max-w-[16vw];
+                }
+                &.img_2 {
+                    transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
+                    @apply delay-200 max-w-[20vw];
+                }
+                &.img_3 {
+                    transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
+                    @apply delay-500 max-w-[14vw];
+                }
+            }
+        }
+    }
+    .menu__item-link:hover + .menu__item_imgs {
+        transition: all 0.4s;
+        @apply opacity-100;
+        .menu__item-img {
+            @apply opacity-100;
+            &.img_1 {
+                transform: translate3d(20%, -30%, 0) rotate3d(0, 0, 1, -4deg);
+            }
+            &.img_2 {
+                transform: translate3d(10%, -40%, 0) rotate3d(0, 0, 1, 4deg);
+            }
+            &.img_3 {
+                transform: translate3d(0%, -20%, 0) rotate3d(0, 0, 1, -4deg);
+            }
+        }
+    }
+
+    .marquee {
+        width: var(--marquee-width);
+        /* mix-blend-mode: color-burn; */
+        @apply absolute top-0 left-0 overflow-hidden pointer-events-none leading-relaxed mix-blend-color-burn -rotate-2;
+        .marquee__inner {
+            transform: translate3d(var(--move-initial), 0, 0);
+            animation: marquee 10s linear infinite;
+            animation-play-state: paused;
+            transition: opacity 0.1s;
+            @apply w-fit flex relative opacity-0 gap-4  text-[5vw];
+            b {
+                @apply text-nowrap text-primary leading-none text-center font-monospace font-thin uppercase;
+            }
+            span {
+                @apply text-nowrap text-primary leading-none text-center font-head uppercase;
+            }
+        }
+    }
+
+    .menu__item-link:hover ~ .marquee .marquee__inner {
+        animation-play-state: running;
+        opacity: 1;
+        transition-duration: 0.4s;
+    }
+
+    .menu__item-link:hover ~ .menu__item_text {
+        opacity: 1;
+        transition-duration: 0.4s;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translate3d(var(--move-initial), 0, 0);
+        }
+
+        100% {
+            transform: translate3d(var(--move-final), 0, 0);
+        }
+    }
+</style>

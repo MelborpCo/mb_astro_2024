@@ -1,0 +1,146 @@
+---
+import { Image } from 'astro:assets'
+
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import ProjecWork from '../components/ProjectWork.astro'
+import ProjectHome2 from '../components/ProjectHome2.astro'
+
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+
+import { useStoryblokApi } from '@storyblok/astro'
+const storyblokApi = useStoryblokApi()
+
+const { data } = await storyblokApi
+    .get('cdn/stories/home', {
+        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        resolve_relations: 'page.proyectos,page.destacado',
+    })
+    .catch((e) => {
+        console.error(e)
+        return { data: {} }
+    })
+const story = data.story
+---
+
+<!-- <StoryblokComponent blok={story.content} /> -->
+<Layout story_seo={story.content.seo}>
+    <section id="mbp__hero" class="mbp__wrapper">
+        <div class="mbp__hero">
+            <div class="mbp__hero_title">
+                <p class="anim">{story.content.intro1}</p>
+                <h1 class="anim"><span>MELMBORP |</span>{story.content.intro2}</h1>
+                <p class="anim">{story.content.intro3}</p>
+            </div>
+            <Hero story={story} />
+        </div>
+    </section>
+    <section class="mbp__marquee">
+        <div class="mbp__marquee_wrap">
+            {
+                story.content.clientes.map((cliente) => {
+                    return (
+                        <Image
+                            src={cliente.filename + '/m/200x100'}
+                            alt=""
+                            width="400"
+                            height="400"
+                            style="aspect-ratio: 2/1;"
+                        />
+                    )
+                })
+            }
+            {
+                story.content.clientes.map((cliente) => {
+                    return (
+                        <Image
+                            src={cliente.filename + '/m/200x100'}
+                            alt=""
+                            width="400"
+                            height="400"
+                            style="aspect-ratio: 2/1;"
+                        />
+                    )
+                })
+            }
+        </div>
+    </section>
+    <section id="mbp__projects" class="mbp__projects">
+        <div class="menu">
+            {
+                story.content.proyectos.map((proyecto, index) => {
+                    return <ProjectHome2 proyecto={proyecto} par={index % 2 == 0} />
+                })
+            }
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root {
+        --spacec: 2rem;
+        --marquee-width: 100vw;
+        --offset: 20vw;
+        --move-initial: calc(-25% + var(--offset));
+        --move-final: calc(-50% + var(--offset));
+        --item-font-size: 10vw;
+    }
+    #mbp__hero {
+        @apply mt-24 md:opacity-0;
+        .mbp__hero {
+            @apply overflow-hidden grid grid-cols-1 grid-rows-1 w-full h-auto bg-primary text-secondary rounded-3xl min-h-[calc(100vh-14rem)];
+            .mbp__hero_title {
+                @apply bg-primary-a col-start-1 row-start-1 flex flex-col gap-4 items-center justify-center px-12 text-center z-10;
+                h1 {
+                    @apply text-6xl md:text-8xl font-head uppercase;
+                    span {
+                        @apply hidden;
+                    }
+                }
+                p {
+                    @apply font-monospace text-base font-extralight uppercase;
+                }
+            }
+        }
+    }
+    .mbp__marquee {
+        --duration: 40s;
+        --gap: var(--spacec);
+        gap: var(--gap);
+        @apply flex flex-col overflow-hidden select-none h-32 mix-blend-multiply;
+        .mbp__marquee_wrap {
+            gap: var(--gap);
+            animation: scrollc var(--duration) linear infinite;
+            @apply shrink-0 flex justify-around items-center min-w-full my-auto;
+            img {
+                @apply max-w-[110px] aspect-square object-cover rounded-2xl  bg-transparent dark:invert;
+            }
+        }
+    }
+
+    .mbp__hero_marquee {
+        --duration: 20s;
+        --gap: var(--space);
+        gap: var(--gap);
+        @apply col-start-1 row-start-1 z-0 flex flex-col overflow-hidden select-none py-12;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .mbp__hero_marquee {
+            animation-play-state: paused;
+        }
+    }
+    @keyframes scrollc {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-50%);
+        }
+    }
+    .menu {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        counter-reset: menu;
+        @apply select-none px-0 py-[12vh] flex flex-col gap-y-16 overflow-x-hidden;
+    }
+</style>

@@ -1,0 +1,36 @@
+{
+    "name": "",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "check": "astro check",
+        "build": "astro check && astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/check": "^0.5.6",
+        "@astrojs/sitemap": "^3.1.1",
+        "@astrojs/tailwind": "^5.1.0",
+        "@awesome.me/kit-6328404de0": "^1.0.7",
+        "@storyblok/astro": "^4.0.2",
+        "@studio-freight/lenis": "^1.0.39",
+        "astro": "^4.4.5",
+        "astro-google-fonts-optimizer": "^0.2.2",
+        "astro-seo": "^0.8.2",
+        "gsap": "npm:@gsap/simply@^3.12.5",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.3.3",
+        "vite": "^5.1.4"
+    },
+    "devDependencies": {
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/typography": "^0.5.10",
+        "postcss-nesting": "^12.0.3",
+        "prettier": "^3.2.5",
+        "prettier-plugin-tailwindcss": "^0.5.11",
+        "tailwindcss-debug-screens": "^2.2.1"
+    }
+}

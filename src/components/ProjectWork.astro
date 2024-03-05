@@ -1,0 +1,181 @@
+---
+import { renderRichText } from '@storyblok/astro'
+import { Image } from 'astro:assets'
+const { proyecto, next } = Astro.props
+
+const intro = renderRichText(proyecto.content.intro)
+const problem = renderRichText(proyecto.content.problem)
+const melborp = renderRichText(proyecto.content.melborp)
+---
+
+<div class="proyect-wrap mbp__wrapper">
+    <div class="item-project">
+        <div class="item-project-wrap">
+            <a class="item-project-wrap-fl" href={'/' + proyecto.full_slug}>
+                <div class="item-project-wrap-fl-title">
+                    {
+                        next && (
+                            <div class="item-project-title">
+                                <p>Next project</p>
+                            </div>
+                        )
+                    }
+                    <h4>
+                        {proyecto.content.cliente},
+                        {proyecto.content.nombre}
+                    </h4>
+                    <h3>
+                        {proyecto.content.titular}
+                    </h3>
+                    <div class="item-project-wrap-fl-title-intro">
+                        <div class="tipo">
+                            {proyecto.content.tipo}
+                        </div>
+                        <div set:html={intro} />
+                        <div class="pmel nproblem">
+                            <h5>Problem</h5>
+                            <div set:html={problem} />
+                        </div>
+                        <div class="pmel nmelborp">
+                            <h5>Melborp</h5>
+                            <div set:html={melborp} />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-project-wrap-fl-content">
+                    {
+                        proyecto.content.home[0].media1.filename.split('.').pop() != 'mp4' ? (
+                            <Image
+                                src={proyecto.content.home[0].media1.filename + '/m/500x600'}
+                                alt={proyecto.content.nombre}
+                                class="img_1"
+                                width="500"
+                                height="600"
+                            />
+                        ) : (
+                            <video muted playsinline loop preload="" autoplay class="img_1">
+                                <source src={proyecto.content.home[0].media1.filename} type="video/mp4" />
+                            </video>
+                        )
+                    }
+                    {
+                        proyecto.content.home[0].media2.filename.split('.').pop() != 'mp4' ? (
+                            <Image
+                                src={proyecto.content.home[0].media2.filename + '/m/500x600'}
+                                alt={proyecto.content.nombre}
+                                class="img_2"
+                                width="500"
+                                height="600"
+                            />
+                        ) : (
+                            <video muted playsinline loop preload="" autoplay class="img_2">
+                                <source src={proyecto.content.home[0].media2.filename} type="video/mp4" />
+                            </video>
+                        )
+                    }
+                    {
+                        proyecto.content.home[0].media3.filename.split('.').pop() != 'mp4' ? (
+                            <Image
+                                src={proyecto.content.home[0].media3.filename + '/m/500x600'}
+                                alt={proyecto.content.nombre}
+                                class="img_3"
+                                width="500"
+                                height="600"
+                            />
+                        ) : (
+                            <video muted playsinline loop preload="" autoplay class="img_3">
+                                <source src={proyecto.content.home[0].media3.filename} type="video/mp4" />
+                            </video>
+                        )
+                    }
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .proyect-wrap {
+        .item-project {
+            @apply overflow-hidden pb-8 pt-8 md:pb-32 2xl:mb-12;
+            hr {
+                @apply mx-4 mb-8 md:mx-14;
+            }
+            &-wrap {
+                .item-project-title {
+                    @apply text-sm;
+                }
+                p {
+                    @apply mb-2;
+                }
+                &-fl {
+                    @apply flex flex-col-reverse items-center justify-between transition-all duration-1000 ease-in-out md:flex-row;
+                    &-title {
+                        @apply w-full text-sm md:w-4/12 flex flex-col gap-4;
+                        p {
+                            @apply text-base;
+                        }
+                        h4 {
+                            @apply text-4xl lg:text-7xl uppercase font-head;
+                        }
+                        h3 {
+                            @apply text-2xl;
+                        }
+                        &-intro {
+                            @apply flex flex-col gap-4;
+                            .tipo {
+                                @apply opacity-50;
+                            }
+                            p {
+                            }
+                        }
+                        .pmel {
+                            h5 {
+                                @apply mb-2 text-xl uppercase;
+                            }
+                            p {
+                            }
+                            &.nproblem {
+                                p {
+                                    @apply line-through;
+                                }
+                            }
+                        }
+                    }
+                    &-content {
+                        @apply mt-0 w-full text-sm md:mb-0 md:mt-0 md:grid md:w-7/12 md:grid-cols-12 md:grid-rows-6;
+                        .img_1 {
+                            transition: all 0.5s ease-in-out;
+                            @apply block md:col-span-7 md:col-start-1 md:row-span-5 md:row-start-1;
+                        }
+                        .img_2 {
+                            transition: all 0.5s ease-in-out;
+                            @apply hidden delay-75 md:col-span-6 md:col-start-7 md:row-span-4 md:row-start-3 md:block;
+                        }
+                        .img_3 {
+                            transition: all 0.5s ease-in-out;
+                            @apply hidden delay-100 md:col-span-4 md:col-start-2 md:row-span-3 md:row-start-4 md:block;
+                        }
+                        img {
+                            @apply w-full object-cover;
+                        }
+                    }
+                }
+                &-fl:hover {
+                    @media (min-width: 768px) {
+                        .img_1 {
+                            transform: scale(0.8) !important;
+                        }
+                        .img_2 {
+                            transform: scale(0.9) !important;
+                        }
+                        .img_3 {
+                            transform: scale(1.1) !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+</style>

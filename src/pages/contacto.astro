@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro'
+import ContactoInt from '../components/ContactoInt.astro'
+
+import { useStoryblokApi } from '@storyblok/astro'
+const storyblokApi = useStoryblokApi()
+
+const { data } = await storyblokApi
+    .get('cdn/stories/contacto', {
+        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+    })
+    .catch((e) => {
+        console.error(e)
+        return { data: {} }
+    })
+const story = data.story
+---
+
+<Layout story_seo={story.content.seo}>
+    <section class="contacto">
+        <ContactoInt story={story} />
+    </section>
+</Layout>
+<style>
+    .contacto {
+        @apply min-h-screen;
+    }
+</style>

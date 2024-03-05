@@ -1,0 +1,284 @@
+---
+import { renderRichText } from '@storyblok/astro'
+import { Image } from 'astro:assets'
+const { proyecto, par } = Astro.props
+const intro = renderRichText(proyecto.content.intro)
+const problem = renderRichText(proyecto.content.problem)
+const melborp = renderRichText(proyecto.content.melborp)
+const slug = proyecto.slug
+// console.log(proyecto.content.bloques[0])
+const poster = proyecto.content.bloques[0].poster
+    ? `url('${proyecto.content.bloques[0].poster.filename}/m/')`
+    : 'var("--color-secondary-a")'
+// const bg = proyecto.content.bloques[0].poster
+//     ? proyecto.content.bloques[0].poster.filename + '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
+//     : proyecto.content.home[0].media1.filename + '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
+const optim = '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
+const bg =
+    proyecto.content.home[0].media1.filename.split('.').pop() != 'mp4'
+        ? proyecto.content.home[0].media1.filename + optim
+        : proyecto.content.bloques[0].poster.filename + optim
+---
+
+<article
+    data-slug={slug}
+    id={`proyecto_${proyecto.slug}`}
+    class={`mbp__wrapper proyecto_tipo ${par ? 'tipo_2' : 'tipo_1'}`}
+>
+    <div class="proyecto_over">
+        <Image src={bg} alt={proyecto.content.nombre} width="1024" height="768" />
+    </div>
+    <h2 class="proyecto_title">
+        <div class="proyecto_title_int">
+            <div class="proyecto_title_int_cliente">{proyecto.content.cliente}</div>
+            <div
+                class={'proyecto_title_int_nom ' +
+                    (proyecto.content.nombre.split(' ').length > 4 ? 'text-small' : 'text-normal')}
+            >
+                {
+                    proyecto.content.nombre.split(' ').map((palabra, index) => {
+                        return <span dala-index={index}>{palabra}</span>
+                    })
+                }
+            </div>
+            {
+                proyecto.content.nombre != proyecto.content.titular && (
+                    <div class="proyecto_title_int_titular" set:html={proyecto.content.titular} />
+                )
+            }
+            <div class="proyecto_title_int_intro" set:html={intro} />
+        </div>
+    </h2>
+    <div class="proyecto_arrow proyecto_arrow_anim">
+        <svg
+            viewBox="0 0 45 45"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+            <g stroke="currentColor" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-12.000000, -9.000000)" stroke="currentColor" stroke-width="1">
+                    <g
+                        id="arrowp"
+                        transform="translate(34.374000, 31.374000) scale(-1, 1) translate(-34.374000, -31.374000) translate(13.000000, 10.000000)"
+                    >
+                        <line x1="42.748" y1="42.748" x2="0" y2="0"></line>
+                        <polyline points="42.3738 0.3742 0.3738 0.3742 0.3738 42.3742"></polyline>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </div>
+    <div class="proyecto_data">
+        <div class="proyecto_data_int">
+            <div class="proyecto_data_content">
+                <a href={proyecto.full_slug}>
+                    <h4 class="anim_proy pr_hover to_hide">
+                        {proyecto.content.titular}
+                    </h4>
+                    <div class="proyecto_body anim_proy pr_hover to_hide" set:html={intro} />
+
+                    <div class="proyecto_ver anim_proy pr_hover to_hide">
+                        <span> Ver proyecto</span>
+                        <i class="fa-thin fa-long-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id={`proyecto_${proyecto.slug}_media_1`} data-played="0" class="proyecto_media proyecto_media_1">
+        {
+            proyecto.content.home[0].media1.filename.split('.').pop() != 'mp4' ? (
+                <Image
+                    src={proyecto.content.home[0].media1.filename + '/m/500x600'}
+                    alt={proyecto.content.nombre}
+                    class="proyecto-img img-1"
+                    width="500"
+                    height="600"
+                />
+            ) : (
+                <video muted playsinline loop preload="" autoplay class="img-2">
+                    <source src={proyecto.content.home[0].media1.filename} type="video/mp4" />
+                </video>
+            )
+        }
+    </div>
+    <div id={`proyecto_${proyecto.slug}_media_2`} data-played="0" class="proyecto_media proyecto_media_2">
+        {
+            proyecto.content.home[0].media2.filename.split('.').pop() != 'mp4' ? (
+                <Image
+                    src={proyecto.content.home[0].media2.filename + '/m/500x700'}
+                    alt={proyecto.content.nombre}
+                    class="proyecto-img img-2"
+                    width="500"
+                    height="700"
+                />
+            ) : (
+                <video muted playsinline loop preload="" autoplay class="img-2">
+                    <source src={proyecto.content.home[0].media2.filename} type="video/mp4" />
+                </video>
+            )
+        }
+    </div>
+    <div id={`proyecto_${proyecto.slug}_media_3`} data-played="0" class="proyecto_media proyecto_media_3">
+        {
+            proyecto.content.home[0].media3.filename.split('.').pop() != 'mp4' ? (
+                <Image
+                    src={proyecto.content.home[0].media3.filename + '/m/600x600'}
+                    alt={proyecto.content.nombre}
+                    class="proyecto-img img-3"
+                    width="600"
+                    height="600"
+                />
+            ) : (
+                <video muted playsinline loop preload="" autoplay class="img-3">
+                    <source src={proyecto.content.home[0].media3.filename} type="video/mp4" />
+                </video>
+            )
+        }
+    </div>
+</article>
+
+<style define:vars={{ poster }}>
+    .proyecto_tipo {
+        @apply grid h-full w-full auto-rows-auto grid-cols-6 justify-center gap-2 md:grid-cols-12 md:grid-rows-6 md:gap-4 transition-colors rounded-3xl overflow-hidden;
+        .proyecto_over {
+            /* background: var(--poster); */
+            @apply hidden md:grid z-20 col-start-1 col-end-6 row-start-1 row-end-6 md:col-end-13 md:row-end-7 rounded-3xl select-none pointer-events-none backdrop-blur-3xl bg-secondary-a2  grid-cols-1 grid-rows-1;
+            &::before {
+                content: '';
+                @apply block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grrf;
+            }
+            /* &::after {
+                content: '';
+                @apply block z-20 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grd;
+            } */
+            img {
+                transform: rotate(0deg) scale(1.8);
+                @apply z-0 col-start-1 row-start-1 col-end-2 row-end-2 blur-xl object-cover w-full h-full opacity-10 aspect-[16/9]  mix-blend-lighten;
+
+                &.init {
+                    animation-play-state: running;
+                    @apply animate-pert;
+                    @media (prefers-reduced-motion: reduce) {
+                        animation-play-state: paused;
+                    }
+                }
+            }
+        }
+        .proyecto_title {
+            @apply z-20 col-start-1 col-end-6 row-start-1 row-end-2 md:col-end-9 md:row-start-2 md:row-end-6 opacity-100 dark:text-secondary;
+            .proyecto_title_int {
+                @apply flex flex-col gap-y-2 h-full w-full;
+                .proyecto_title_int_cliente {
+                    @apply leading-none font-head uppercase text-2xl lg:text-4xl;
+                }
+                .proyecto_title_int_nom {
+                    @apply flex flex-wrap font-light gap-x-2 leading-tight mb-8 font-head uppercase;
+                    &.text-small {
+                        @apply text-3xl lg:text-7xl lg:w-full;
+                    }
+                    &.text-normal {
+                        @apply text-4xl lg:text-8xl lg:w-3/5;
+                    }
+                    span {
+                        transition: font-variation-settings 0.5 ease-in-out;
+                        @apply inline;
+                    }
+                }
+                .proyecto_title_int_titular {
+                    @apply hidden md:block font-monospace font-bold text-2xl;
+                }
+                .proyecto_title_int_intro {
+                    @apply hidden md:flex font-monospace font-light text-base flex-col gap-2;
+                }
+            }
+        }
+        .proyecto_arrow {
+            @apply z-30 row-start-2 row-end-5 hidden md:col-start-9 md:col-end-12 md:block;
+            svg {
+                @apply w-full object-contain text-primary-100;
+            }
+        }
+        .proyecto_data {
+            @apply z-30 md:pt-10 md:px-10 text-primary;
+            .proyecto_data_int {
+                @apply opacity-100;
+                .proyecto_data_content {
+                    h4 {
+                        @apply mb-4 text-2xl uppercase leading-none font-head;
+                        @media (max-width: 768px) {
+                            @apply mt-4 text-2xl normal-case leading-none;
+                        }
+                    }
+                    .proyecto_body {
+                        @apply mb-4 text-sm font-light leading-5 lg:mr-3 flex flex-col gap-2;
+                        @media (max-width: 768px) {
+                            @apply text-base leading-tight;
+                        }
+                        p {
+                            @apply mb-2;
+                        }
+                    }
+                    .proyecto_ver {
+                        @apply text-base font-bold uppercase float-left;
+                        @media (max-width: 768px) {
+                            @apply ml-0;
+                        }
+                        svg {
+                            width: 45px;
+                            height: 45px;
+                            @apply ml-4 mt-2;
+                        }
+                    }
+                }
+            }
+        }
+
+        .proyecto_media {
+            @apply z-0 justify-self-center overflow-hidden;
+            img,
+            video {
+                @apply h-full w-full object-contain z-0;
+            }
+            img-1 {
+                @apply aspect-home1;
+            }
+            img-2 {
+                @apply aspect-home2;
+            }
+            img-3 {
+                @apply aspect-home3;
+            }
+        }
+
+        &.tipo_1 {
+            .proyecto_data {
+                @apply col-start-2 col-end-6 row-start-4 row-end-5 md:col-start-1 md:col-end-5 md:row-start-5 md:row-end-7;
+            }
+            .proyecto_media_3 {
+                @apply z-0 col-start-1 col-end-6 row-start-2 row-end-3  md:col-start-1 md:col-end-5 md:row-start-1 md:row-end-5;
+            }
+            .proyecto_media_2 {
+                @apply z-10 col-start-3 col-end-7 row-start-3 row-end-4 -mt-24 md:col-start-5 md:col-end-9 md:row-start-1 md:row-end-6 md:mt-0;
+            }
+            .proyecto_media_1 {
+                @apply hidden md:col-start-9 md:col-end-13 md:row-start-1  md:row-end-6 md:block;
+            }
+        }
+        &.tipo_2 {
+            .proyecto_data {
+                @apply col-start-2 col-end-6 row-start-4 row-end-5 md:col-start-9 md:col-end-13 md:row-start-5 md:row-end-7;
+            }
+            .proyecto_media_1 {
+                @apply col-start-1 col-end-6 row-start-2 row-end-3 md:col-start-1 md:col-end-5 md:row-start-1 md:row-end-6;
+            }
+            .proyecto_media_2 {
+                @apply col-start-3 col-end-7  row-start-3 row-end-4 -mt-24 md:col-start-5 md:col-end-9 md:row-start-1 md:row-end-6 md:mt-0;
+            }
+            .proyecto_media_3 {
+                @apply hidden md:col-start-9 md:col-end-13 md:row-start-1 md:row-end-5 md:block;
+            }
+        }
+    }
+</style>

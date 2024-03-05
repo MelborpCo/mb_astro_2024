@@ -1,0 +1,105 @@
+---
+const { story } = Astro.props
+import { Image } from 'astro:assets'
+---
+
+<div class="mbp__hero_marquee">
+    <div class="mbp__hero_marquee_images norm">
+        {
+            story.content.proyectos.map((proyecto) => {
+                if (proyecto.content.home[0].media1.filename.split('.').pop() != 'mp4') {
+                    return (
+                        <Image
+                            src={proyecto.content.home[0].media1.filename + '/m/600x800'}
+                            alt={proyecto.name}
+                            width="600"
+                            height="800"
+                            class={'t_' + (Math.floor(Math.random() * 2) + 1)}
+                        />
+                    )
+                }
+            })
+        }
+    </div>
+    <div class="mbp__hero_marquee_images rev">
+        {
+            story.content.proyectos.reverse().map((proyecto) => {
+                if (proyecto.content.home[0].media1.filename.split('.').pop() != 'mp4') {
+                    return (
+                        <Image
+                            src={proyecto.content.home[0].media1.filename + '/m/600x800'}
+                            alt={proyecto.name}
+                            width="600"
+                            height="800"
+                            class={'t_' + (Math.floor(Math.random() * 2) + 1)}
+                        />
+                    )
+                }
+            })
+        }
+    </div>
+</div>
+
+<style>
+    :root {
+        --space: 2rem;
+    }
+    .mbp__hero_marquee {
+        --duration: 20s;
+        --gap: var(--space);
+
+        gap: var(--gap);
+        @apply col-start-1 row-start-1 z-0 flex flex-col overflow-hidden select-none py-12;
+
+        .mbp__hero_marquee_images {
+            gap: var(--gap);
+
+            @apply shrink-0 flex justify-around items-center min-w-full my-auto;
+            &.ready {
+                animation: scroll var(--duration) linear infinite;
+            }
+            img {
+                max-width: clamp(10rem, 1rem + 28vmin, 20rem);
+                @apply object-cover rounded-2xl;
+                &.t_1 {
+                    @apply aspect-home1;
+                }
+                &.t_2 {
+                    @apply aspect-home2;
+                }
+                &.t_3 {
+                    @apply aspect-home4;
+                }
+            }
+            &.rev {
+                transform: translateX(calc(-100% - var(--gap)));
+                &.ready {
+                    animation: scrollrev var(--duration) linear infinite;
+                }
+            }
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .mbp__hero_marquee_images {
+            animation-play-state: paused;
+        }
+    }
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(calc(-100% - var(--gap)));
+        }
+    }
+    @keyframes scrollrev {
+        0% {
+            transform: translateX(calc(-100% - var(--gap)));
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+</style>

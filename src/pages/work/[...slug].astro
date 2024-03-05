@@ -1,0 +1,560 @@
+---
+import { Image } from 'astro:assets'
+import Layout from '../../layouts/Layout.astro'
+import ProyectoMedia from '../../components/ProyectoMedia.astro'
+import ProjectWork from '../../components/ProjectWork.astro'
+
+import { useStoryblokApi, renderRichText } from '@storyblok/astro'
+const storyblokApi = useStoryblokApi()
+
+// https://api.storyblok.com/v2/cdn/links?cv=1708977337&per_page=100&starts_with=work/&token=7sDrNI4uruLzNuscT59e4Qtt&version=published
+
+export async function getStaticPaths() {
+    const storyblokApi = useStoryblokApi()
+
+    const { data } = await storyblokApi
+        .get('cdn/links', {
+            version: 'published',
+            per_page: 100,
+            cv: 0,
+            starts_with: 'work/',
+        })
+        .catch((e) => {
+            console.error(e)
+            return { data: { links: [] } }
+        })
+    let links = data.links
+    links = Object.values(links)
+    return links.map((link) => {
+        return {
+            params: {
+                slug: link.slug.split('work/')[1],
+            },
+        }
+    })
+}
+
+const { slug } = Astro.params
+
+const { data } = await storyblokApi
+    .get('cdn/stories/work/' + slug, {
+        version: 'published',
+    })
+    .catch((e) => {
+        console.error(e)
+        return { data: {} }
+    })
+const story = data.story
+
+const proyectos = await storyblokApi.get(`cdn/stories/`, {
+    starts_with: 'work/',
+    version: 'published',
+    excluding_ids: story.id,
+})
+
+const date = new Date(story.first_published_at)
+
+const year = date.getFullYear()
+const month = (date.getMonth() + 1).toString().padStart(2, '0')
+
+const next_project = proyectos.data.stories[Math.floor(Math.random() * proyectos.data.stories.length)]
+
+const intro2 = renderRichText(story.content.intro2)
+const intro3 = renderRichText(story.content.intro3)
+const cuerpo = renderRichText(story.content.cuerpo)
+const problem = renderRichText(story.content.problem)
+const melborp = renderRichText(story.content.melborp)
+const resultadoc = renderRichText(story.content.resultadoc)
+
+const clienteChars = story.content.cliente.split('').length
+const tituloChars = story.content.nombre.split('').length
+const tituloArray = story.content.nombre.split(' ')
+const tituloSize = tituloArray.length
+const tituloHalf = Math.ceil(tituloSize / 2)
+
+const tituloParts = []
+for (let i = tituloHalf; i > 0; i--) {
+    const pr = tituloArray.splice(0, Math.ceil(tituloSize / i))
+    tituloParts.push(pr)
+}
+
+const image = story.content.image ? story.content.image.filename : false
+
+const resultados_show = story.content.resultados ? story.content.resultados.length > 0 : false
+const show_resultados =
+    (story.content.interior != true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '') ||
+    image ||
+    (story.content.interior == true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '')
+
+const optim = '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
+const bg =
+    story.content.home[0].media1.filename.split('.').pop() != 'mp4'
+        ? story.content.home[0].media1.filename + optim
+        : story.content.bloques[0].poster.filename + optim
+
+const class_h2 =
+    'anim ' +
+    (clienteChars < 10
+        ? 'psmall'
+        : clienteChars >= 10 && clienteChars < 20
+          ? 'pmid'
+          : clienteChars >= 20
+            ? 'plarge'
+            : '')
+---
+
+<Layout story_seo={story.content.seo}>
+    <mbp-proyecto-top id={`s-${story.id}`} class="proyecto_top">
+        <div class="proyecto_over">
+            <Image class="init" src={bg} alt={story.content.nombre} width="1024" height="768" />
+        </div>
+        <div class="proyecto_head">
+            <div class="proyecto_info mbp__wrapper">
+                <div class="proyecto_info_text">
+                    <div class="regresar mbp_ap">
+                        <a href="/" title="Regresar">
+                            <i class="fal fa-long-arrow-left mr-2 block text-3xl"></i>
+                        </a>
+                    </div>
+                    <div class="proyecto_top">
+                        <h3 class="mbp_ap">
+                            <b class={class_h2}>{story.content.cliente},</b>
+                            <time class="anim">
+                                <span>
+                                    {month}
+                                </span>
+                                <strong> .{year}</strong>
+                            </time>
+                        </h3>
+                        <h2
+                            class={'mbp_ap ' +
+                                (tituloChars < 10
+                                    ? 'psmall'
+                                    : tituloChars >= 10 && tituloChars < 20
+                                      ? 'pmid'
+                                      : tituloChars >= 20
+                                        ? 'plarge'
+                                        : '')}
+                        >
+                            {story.content.nombre}
+                        </h2>
+                    </div>
+                    <div class="proyecto_info mbp_ap">
+                        <div class={`info ${story.content.tipo_interior}`}>
+                            {story.content.tipo && <div class="anim tipo">{story.content.tipo}</div>}
+                            <div class="anim intro2 mbp__text" set:html={intro2} />
+                            <div class="anim intro3 mbp__text" set:html={intro3} />
+                            <div class="body mbp__text" set:html={cuerpo} />
+                        </div>
+                        <div class="problem_melborp">
+                            <div class="problem animpm">
+                                <h4>Problem</h4>
+                                <div set:html={problem} />
+                            </div>
+
+                            <div class="melborp animpm">
+                                <h4>Melborp</h4>
+                                <div set:html={melborp} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="imagen mbp_ap">
+                    {
+                        story.content.header[0].filename.split('.').pop() != 'mp4' ? (
+                            <Image
+                                src={story.content.header[0].filename + '/m/953x1155'}
+                                alt={story.content.nombre}
+                                class="header-img"
+                                width="953"
+                                height="1155"
+                            />
+                        ) : (
+                            <video muted playsinline loop preload="" autoplay>
+                                <source src={story.content.header[0].filename} type="video/mp4" />
+                            </video>
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    </mbp-proyecto-top>
+    {
+        show_resultados && (
+            <section class="proyecto_resultados">
+                <div class="mbp__wrapper">
+                    <div class="proyecto_resultados_intro">
+                        <div class="resultados_info">
+                            {story.content.interior != true &&
+                                resultadoc &&
+                                resultadoc.replace(/(<([^>]+)>)/gi, '') != '' && (
+                                    <div
+                                        class={
+                                            'resultadoc animpm ' +
+                                            ((story.content.resultados.length == 0 ? 'nresultados ' : ' ') +
+                                                story.content.tamano !=
+                                            ''
+                                                ? 'text-' +
+                                                  (story.content.tamano != undefined ? story.content.tamano : '4xl')
+                                                : 'text-std')
+                                        }
+                                        set:html={resultadoc}
+                                    />
+                                )}
+                            {image && (
+                                <div class="resultadoc animpm">
+                                    <img src={image + '/m/'} alt="" />
+                                </div>
+                            )}
+                            {story.content.interior == true &&
+                                resultadoc &&
+                                resultadoc.replace(/(<([^>]+)>)/gi, '') != '' && (
+                                    <div
+                                        class={
+                                            'anim resultadoc_intro ' +
+                                            ((story.content.resultados.length == 0 ? 'nresultados ' : ' ') +
+                                                story.content.tamano !=
+                                            ''
+                                                ? 'text-' + story.content.tamano
+                                                : 'text-std')
+                                        }
+                                        set:html={resultadoc}
+                                    />
+                                )}
+                        </div>
+
+                        {resultados_show && (
+                            <div class="resultados animpm">
+                                <div class="listado">
+                                    {story.content.resultados.map((resultado, index) => {
+                                        return (
+                                            <div class="resultado">
+                                                {resultado.resutado.map((resultado_int, index2) => {
+                                                    return (
+                                                        <div>
+                                                            {resultado_int.contenido != '' && (
+                                                                <div
+                                                                    class="res_contenido"
+                                                                    set:html={renderRichText(resultado_int.contenido)}
+                                                                />
+                                                            )}
+                                                            {resultado_int.valor != '' && (
+                                                                <div class="res_cifra">
+                                                                    {resultado_int.prefijo && (
+                                                                        <small>{resultado_int.prefijo}</small>
+                                                                    )}
+                                                                    {resultado_int.valor && (
+                                                                        <b>{resultado_int.valor}</b>
+                                                                    )}
+                                                                    {resultado_int.sufijo && (
+                                                                        <small>{resultado_int.sufijo}</small>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </section>
+        )
+    }
+    <section class="proyecto_media">
+        {
+            story.content.bloques.map((media) => {
+                return <ProyectoMedia media={media} />
+            })
+        }
+    </section>
+    <ProjectWork proyecto={next_project} next="Siguiente" />
+</Layout>
+
+<script>
+    import gsap from 'gsap'
+    class MbpProyectoTop extends HTMLElement {
+        constructor() {
+            super()
+
+            const id = '#' + this.id
+            const mm = gsap.matchMedia()
+            mm.add('(min-width: 640px)', () => {
+                const tl_MbpProyectoTop = gsap.timeline({
+                    paused: true,
+                    ease: 'power2.out',
+                    delay: 0,
+                    repeat: 0,
+                    overwrite: 'auto',
+                    onStart: () => {},
+                    onComplete: () => {},
+                })
+                tl_MbpProyectoTop.fromTo(
+                    `${id} .proyecto_over`,
+                    {
+                        autoAlpha: 0,
+                        yPercent: -10,
+                    },
+                    {
+                        yPercent: 0,
+                        autoAlpha: 1,
+                        duration: 0.5,
+                        ease: 'power2.inOut',
+                    },
+                )
+                tl_MbpProyectoTop.fromTo(
+                    `${id} .proyecto_head`,
+                    {
+                        autoAlpha: 0,
+                    },
+                    {
+                        autoAlpha: 1,
+                        duration: 1,
+                        ease: 'power2.inOut',
+                    },
+                    '-=0.1',
+                )
+                tl_MbpProyectoTop.fromTo(
+                    `${id} .mbp_ap`,
+                    {
+                        y: -10,
+                        autoAlpha: 0,
+                        clipPath: 'inset(0% 100% 0% 0%)',
+                    },
+                    {
+                        y: 0,
+                        autoAlpha: 1,
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 0.8,
+                        ease: 'power2.Out',
+                        stagger: 0.2,
+                    },
+                    '-=0.3',
+                )
+                tl_MbpProyectoTop.fromTo(
+                    `.proyecto_resultados`,
+                    {
+                        y: 10,
+                        autoAlpha: 0,
+                        clipPath: 'inset(0% 100% 0% 0%)',
+                    },
+                    {
+                        y: 0,
+                        autoAlpha: 1,
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 0.8,
+                        ease: 'power2.out',
+                    },
+                    '-=0.8',
+                )
+
+                // interesection
+                function displayEntry(entry) {
+                    if (entry.isIntersecting) {
+                        tl_MbpProyectoTop.play()
+                    } else {
+                    }
+                }
+                const callback = (entries, observer) => {
+                    entries.forEach((entry) => {
+                        displayEntry(entry)
+                    })
+                }
+                const observer = new IntersectionObserver(callback)
+                observer.observe(this)
+            })
+        }
+    }
+    customElements.define('mbp-proyecto-top', MbpProyectoTop)
+</script>
+
+<style>
+    .proyecto_top {
+        @apply w-full grid grid-cols-1 grid-rows-1 overflow-hidden;
+        /* &::after {
+            content: '';
+            @apply block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grd2;
+        } */
+        .proyecto_over {
+            @apply md:opacity-0 md:grid z-0 col-start-1 col-end-2 row-start-1 row-end-2 rounded-3xl select-none pointer-events-none backdrop-blur-3xl bg-secondary-a2 grid-cols-1 grid-rows-1 overflow-hidden w-full h-full;
+            &::before {
+                content: '';
+                @apply overflow-hidden block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grrf;
+            }
+            /* &::after {
+                content: '';
+                @apply overflow-hidden block z-20 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grd;
+            } */
+            img {
+                transform: rotate(0deg) scale(1.8);
+                @apply z-0 col-start-1 row-start-1 col-end-2 row-end-2 blur-xl object-cover w-full h-full opacity-40 aspect-[16/9]  mix-blend-lighten;
+
+                &.init {
+                    animation-play-state: running;
+                    @apply animate-pert;
+                    @media (prefers-reduced-motion: reduce) {
+                        animation-play-state: paused;
+                    }
+                }
+            }
+        }
+        .proyecto_head {
+            @apply md:opacity-0 pt-28 z-20 col-start-1 col-end-2 row-start-1 row-end-2 pb-20;
+            .proyecto_info {
+                @apply flex flex-col-reverse md:flex-row md:gap-8 md:items-stretch md:justify-between;
+                .proyecto_info_text {
+                    @apply md:w-6/12 flex flex-col gap-y-8;
+                    &.left {
+                    }
+                    .regresar {
+                        @apply z-0 leading-none;
+                        a {
+                            i {
+                                @apply font-light;
+                            }
+                        }
+                    }
+                    .proyecto_top {
+                        @apply flex flex-col gap-y-4;
+                        h3 {
+                            @apply flex items-baseline justify-start gap-x-4;
+                            b {
+                                @apply font-head uppercase;
+                            }
+                            .psmall {
+                                @apply text-3xl md:text-7xl;
+                            }
+                            .pmid {
+                                @apply text-3xl md:text-6xl;
+                            }
+                            .plarge {
+                                @apply text-3xl md:text-4xl;
+                            }
+                            span {
+                            }
+                            time {
+                                @apply z-0 text-sm leading-none;
+                            }
+                        }
+                    }
+                    h2 {
+                        @apply flex flex-col  gap-x-0 font-head uppercase;
+
+                        &.psmall {
+                            @apply text-4xl md:text-9xl;
+                        }
+                        &.pmid {
+                            @apply text-4xl md:text-9xl;
+                        }
+                        &.plarge {
+                            @apply text-4xl md:text-8xl;
+                        }
+                    }
+                    .proyecto_info {
+                        @apply flex flex-col gap-y-8 mt-auto;
+
+                        .info {
+                            @apply flex flex-col gap-y-0;
+                            .tipo {
+                                @apply text-base opacity-50;
+                            }
+                            .intro2 {
+                                @apply text-sm font-light leading-snug;
+                            }
+                            .intro3 {
+                                @apply text-sm font-light leading-snug;
+                            }
+                            .body {
+                                @apply text-sm font-light leading-snug;
+                            }
+                        }
+                        .problem_melborp {
+                            @apply flex gap-8;
+                            div {
+                                @apply flex flex-col gap-y-2 flex-1;
+                                h4 {
+                                    @apply text-2xl font-head;
+                                }
+                                div {
+                                    @apply text-sm font-light leading-snug;
+                                }
+                            }
+                            .problem {
+                                div {
+                                    @apply line-through;
+                                }
+                            }
+                            .melborp {
+                            }
+                        }
+                    }
+                }
+                .imagen {
+                    @apply md:opacity-0 md:w-6/12;
+                    img {
+                        @apply block h-full w-full object-cover aspect-header;
+                    }
+                }
+            }
+        }
+    }
+    .proyecto_resultados {
+        @apply py-20;
+        .proyecto_resultados_intro {
+            @apply flex gap-12 items-center justify-between;
+            .resultados_info {
+                @apply flex-1;
+                .resultadoc {
+                    @apply min-w-[450px] font-head;
+                    &.nresultados {
+                        &.text-std {
+                            @apply text-4xl md:text-5xl;
+                        }
+                    }
+                    img {
+                        @apply mix-blend-multiply w-full min-w-[450px];
+                    }
+                }
+                .resultadoc_intro {
+                    @apply font-head min-w-[150px];
+                    &.nresultados {
+                        &.text-std {
+                            @apply text-4xl md:text-5xl;
+                        }
+                    }
+                }
+            }
+        }
+        .resultados {
+            @apply flex-auto;
+            .listado {
+                @apply flex flex-wrap gap-x-8 gap-y-2 justify-end items-stretch basis-1/2;
+                .resultado {
+                    @apply flex flex-col pl-5 py-2 text-base leading-loose gap-2 flex-1 min-w-[250px] border-l border-primary-100;
+                    .res_cifra {
+                        @apply flex items-baseline gap-3;
+                        b {
+                            @apply mt-2 font-bold block text-4xl tracking-tighter;
+                            u {
+                                @apply text-lg;
+                            }
+                        }
+                        small {
+                            @apply text-lg md:text-xl;
+                        }
+                    }
+                    .res_contenido {
+                        @apply flex flex-row items-baseline justify-start text-base font-light leading-none;
+                    }
+                }
+            }
+        }
+    }
+    .proyecto_media {
+        @apply py-16 flex flex-col gap-y-16;
+    }
+</style>

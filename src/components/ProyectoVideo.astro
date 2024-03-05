@@ -1,0 +1,184 @@
+---
+import { renderRichText } from '@storyblok/astro'
+
+const { media } = Astro.props
+
+const showdesc = renderRichText(media.descripcion) !== '<p></p>'
+const descripcion = renderRichText(media.descripcion)
+---
+
+<mbp-video
+    id={`mb-${media._uid}`}
+    data-id={`v-${media._uid}`}
+    data-autoplay={media.autoplay ? 1 : 0}
+    class="media_video"
+>
+    <div class={`media_video_wrapper ${media.posicion}`}>
+        <video
+            controls={!media.loop}
+            src={media.video.filename}
+            class="media_video_player"
+            preload="auto"
+            loop={media.loop}
+            autoplay={media.autoplay}
+            muted={media.autoplay}
+            poster={media.poster.filename + '/m/'}></video>
+        {
+            !media.loop && (
+                <button
+                    v-if="!media.loop"
+                    id={`video_btn_${media._uid}`}
+                    class="media_video_poster dif"
+                    style={'background-image: url(' + media.poster.filename + '/m/)'}
+                >
+                    <b class="t proy_link btn-mbp hvr-sweep-to-top">
+                        <span class={!media.multiply ? '' : 'no-multy'}>
+                            Play <i class="fa-solid fa-play" />
+                        </span>
+                    </b>
+                </button>
+            )
+        }
+    </div>
+    {showdesc && <div class="media_video_content" set:html={descripcion} />}
+</mbp-video>
+
+<style>
+    .media_video {
+        @apply grid grid-cols-5;
+        .media_video_wrapper {
+            padding-top: 56%;
+            @apply relative h-0 w-full self-center;
+            &.center {
+                @apply col-span-full;
+            }
+            &.left {
+                @apply col-span-full md:col-start-1 md:col-end-5;
+            }
+            &.right {
+                @apply col-span-full md:order-2 md:col-start-2 md:col-end-6;
+            }
+
+            .media_video_player {
+                @apply absolute bottom-0 left-0 right-0 top-0 inline-block h-full object-contain;
+            }
+            .media_video_poster {
+                background-position: 50% 50%;
+                background-size: 100% 100%;
+                -webkit-transition:
+                    opacity 800ms,
+                    height 0s;
+                transition:
+                    opacity 800ms,
+                    height 0s;
+                -webkit-transition-delay: 0s, 0s;
+                transition-delay: 0s, 0s;
+                @apply absolute bottom-0 left-0 right-0 top-0 h-full w-full cursor-pointer overflow-hidden border-none bg-cover text-sm opacity-100 outline-none;
+                b {
+                    @apply font-head text-8xl text-secondary shadow-sm transition-all md:text-9xl;
+                    span {
+                        @apply flex gap-2 justify-center items-center;
+                        i {
+                            @apply text-2xl md:text-7xl pt-8;
+                            &.iconp {
+                                @apply text-4xl md:text-9xl;
+                            }
+                        }
+                    }
+                }
+                &:hover {
+                    b {
+                        @apply tracking-wider;
+                    }
+                }
+                &.dif {
+                    b {
+                        span {
+                            @apply text-secondary mix-blend-exclusion relative;
+                            &.no-multy {
+                                -webkit-mix-blend-mode: normal;
+                                -moz-mix-blend-mode: normal;
+                                -o-mix-blend-mode: normal;
+                                -ms-mix-blend-mode: normal;
+                                mix-blend-mode: normal;
+                                @apply text-secondary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .media_video_content {
+            @apply my-8 self-center;
+            &.center {
+                @apply col-start-3 col-end-6;
+            }
+            &.left {
+                @apply col-span-full md:col-start-5 md:col-end-6 md:p-8;
+            }
+            &.right {
+                @apply col-span-full md:order-1 md:col-start-1 md:col-end-2 md:p-8;
+            }
+        }
+    }
+</style>
+
+<script>
+    import gsap from 'gsap'
+    class MbpVideo extends HTMLElement {
+        constructor() {
+            super()
+            const id = this.dataset.id
+            const autoplay = parseInt(this.dataset.autoplay)
+            const video = this.querySelector('video')
+            const button = this.querySelector('button')
+            const playVideo = (e) => {
+                document.querySelectorAll('video').forEach((vid) => vid.pause())
+                gsap.to(button, {
+                    autoAlpha: 0,
+                    duration: 0.4,
+                    onComplete: () => {
+                        video?.play()
+                    },
+                    ease: 'power2.Out',
+                })
+            }
+            const stopVideo = (e) => {
+                if (!autoplay) {
+                    video?.pause()
+                    video.currentTime = 0
+                    gsap.to(button, {
+                        autoAlpha: 1,
+                        duration: 0.5,
+                        onComplete: () => {},
+                        ease: 'power2.Out',
+                    })
+                } else {
+                    playVideo(null)
+                }
+            }
+            button?.addEventListener('click', playVideo)
+
+            // interesection
+            function displayEntry(entry) {
+                if (entry.isIntersecting) {
+                    if (!autoplay) {
+                        stopVideo(null)
+                    } else {
+                        // playVideo(null)
+                    }
+                } else {
+                    stopVideo(null)
+                }
+            }
+            const callback = (entries, observer) => {
+                entries.forEach((entry) => {
+                    displayEntry(entry)
+                })
+            }
+            const observer = new IntersectionObserver(callback)
+            observer.observe(this)
+        }
+    }
+    customElements.define('mbp-video', MbpVideo)
+</script>

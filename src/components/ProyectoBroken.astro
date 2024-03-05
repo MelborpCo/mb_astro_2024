@@ -1,0 +1,420 @@
+---
+import { renderRichText } from '@storyblok/astro'
+
+interface media {
+    inicio: string
+    fin: string
+    ancho: string
+    z_index: string
+    ubicacion: string
+    size: string
+    abajo: string
+    arriba: string
+    descripcion: any
+}
+
+const { media } = Astro.props
+
+const itemClasses = []
+const content = []
+media.broken_item.forEach((item: media) => {
+    const classAr: string[] = ['item']
+    if (item.inicio !== '') {
+        classAr.push(`s-${item.inicio}`)
+    }
+    if (item.fin !== '') {
+        classAr.push(`e-${item.fin}`)
+    }
+    if (item.ancho !== '') {
+        classAr.push(`sp-${item.ancho}`)
+    }
+    if (item.z_index !== '') {
+        classAr.push(`p${item.z_index}`)
+    }
+    if (item.ubicacion !== '') {
+        classAr.push(`s${item.ubicacion}`)
+    }
+    if (item.size !== '') {
+        classAr.push(`${item.size}`)
+    }
+    if (item.abajo !== '') {
+        classAr.push(`pm-${item.abajo}`)
+    }
+    if (item.arriba !== '') {
+        classAr.push(`pt-${item.arriba}`)
+    }
+    itemClasses.push(classAr.join(' '))
+    let desc: any = false
+    if (item.descripcion.content) {
+        desc = renderRichText(item.descripcion)
+    }
+
+    content.push(desc)
+})
+
+const normalizeW = (value: number) => {
+    let min = 75
+    let max = 200
+    let percent = ((value - min) / (max - min)) * 100
+
+    let vmin = 75
+    let vmax = 112
+    const wr = vmin + (vmax - vmin) * (percent / 100)
+
+    return wr
+}
+---
+
+<mbp-broken class={`media_broken pgap-${media.gap}`}>
+    {
+        media.broken_item.map((item, i) => {
+            return (
+                <div class={itemClasses[i]}>
+                    {item.imagen.filename && (
+                        <>
+                            {item.imagen.filename.split('.').pop() != 'mp4' && (
+                                <img src={item.imagen.filename + '/m/'} alt="Melborp" />
+                            )}
+                            {item.imagen.filename.split('.').pop() == 'mp4' && (
+                                <video muted playsinline loop preload="" autoplay>
+                                    <source src={item.imagen.filename} type="video/mp4" />
+                                </video>
+                            )}
+                        </>
+                    )}
+
+                    {content[i] && (
+                        <>
+                            <div
+                                style={`font-weight: ${item.wght}; --font-width: ${normalizeW(item.wdth)};`}
+                                class={`broken_text`}
+                                set:html={content[i]}
+                            />
+                        </>
+                    )}
+                </div>
+            )
+        })
+    }
+</mbp-broken>
+
+<style>
+    .media_broken {
+        @apply grid w-full grid-cols-1 md:grid-cols-12 md:grid-rows-1;
+        &.pgap-1 {
+            @apply gap-0 md:gap-1;
+        }
+        &.pgap-2 {
+            @apply gap-0 md:gap-2;
+        }
+        &.pgap-3 {
+            @apply gap-0 md:gap-3;
+        }
+        &.pgap-4 {
+            @apply gap-0 md:gap-4;
+        }
+        &.pgap-5 {
+            @apply gap-0 md:gap-5;
+        }
+        &.pgap-6 {
+            @apply gap-0 md:gap-6;
+        }
+        &.pgap-7 {
+            @apply gap-0 md:gap-7;
+        }
+        &.pgap-8 {
+            @apply gap-0 md:gap-8;
+        }
+        &.pgap-9 {
+            @apply gap-0 md:gap-9;
+        }
+        &.pgap-10 {
+            @apply gap-0 md:gap-10;
+        }
+        &.pgap-11 {
+            @apply gap-0 md:gap-11;
+        }
+        &.pgap-12 {
+            @apply gap-0 md:gap-12;
+        }
+        .item {
+            @apply row-auto mb-8 md:row-span-full;
+            &.pz-0 {
+                @apply z-0;
+            }
+            &.pz-10 {
+                @apply z-10;
+            }
+            &.pz-20 {
+                @apply z-20;
+            }
+            &.pz-30 {
+                @apply z-30;
+            }
+            &.pz-40 {
+                @apply z-40;
+            }
+            &.pz-50 {
+                @apply z-50;
+            }
+
+            &.s-1 {
+                @apply col-start-1 md:col-start-1;
+            }
+            &.s-2 {
+                @apply col-start-1 md:col-start-2;
+            }
+            &.s-3 {
+                @apply col-start-1 md:col-start-3;
+            }
+            &.s-4 {
+                @apply col-start-1 md:col-start-4;
+            }
+            &.s-5 {
+                @apply col-start-1 md:col-start-5;
+            }
+            &.s-6 {
+                @apply col-start-1 md:col-start-6;
+            }
+            &.s-7 {
+                @apply col-start-1 md:col-start-7;
+            }
+            &.s-8 {
+                @apply col-start-1 md:col-start-8;
+            }
+            &.s-9 {
+                @apply col-start-1 md:col-start-9;
+            }
+            &.s-10 {
+                @apply col-start-1 md:col-start-10;
+            }
+            &.s-11 {
+                @apply col-start-1 md:col-start-11;
+            }
+            &.s-12 {
+                @apply col-start-1 md:col-start-12;
+            }
+
+            &.e-1 {
+                @apply col-end-2 md:col-end-1;
+            }
+            &.e-2 {
+                @apply col-end-2 md:col-end-2;
+            }
+            &.e-3 {
+                @apply col-end-2 md:col-end-3;
+            }
+            &.e-4 {
+                @apply col-end-2 md:col-end-4;
+            }
+            &.e-5 {
+                @apply col-end-2 md:col-end-5;
+            }
+            &.e-6 {
+                @apply col-end-2 md:col-end-6;
+            }
+            &.e-7 {
+                @apply col-end-2 md:col-end-7;
+            }
+            &.e-8 {
+                @apply col-end-2 md:col-end-8;
+            }
+            &.e-9 {
+                @apply col-end-2 md:col-end-9;
+            }
+            &.e-10 {
+                @apply col-end-2 md:col-end-10;
+            }
+            &.e-11 {
+                @apply col-end-2 md:col-end-11;
+            }
+            &.e-12 {
+                @apply col-end-2 md:col-end-12;
+            }
+            &.e-13 {
+                @apply col-end-2 md:col-end-13;
+            }
+
+            &.sp-1 {
+                @apply col-span-1;
+            }
+            &.sp-2 {
+                @apply col-span-2;
+            }
+            &.sp-3 {
+                @apply col-span-3;
+            }
+            &.sp-4 {
+                @apply col-span-4;
+            }
+            &.sp-5 {
+                @apply col-span-5;
+            }
+            &.sp-6 {
+                @apply col-span-6;
+            }
+            &.sp-7 {
+                @apply col-span-7;
+            }
+            &.sp-8 {
+                @apply col-span-8;
+            }
+            &.sp-9 {
+                @apply col-span-9;
+            }
+            &.sp-10 {
+                @apply col-span-10;
+            }
+            &.sp-11 {
+                @apply col-span-11;
+            }
+            &.sp-12 {
+                @apply col-span-12;
+            }
+            &.pm-0 {
+                @apply md:mb-0;
+            }
+            &.pm-2 {
+                @apply md:mb-6;
+            }
+            &.pm-4 {
+                @apply md:mb-8;
+            }
+            &.pm-6 {
+                @apply md:mb-10;
+            }
+            &.pm-8 {
+                @apply md:mb-12;
+            }
+            &.pm-10 {
+                @apply md:mb-14;
+            }
+            &.pm-12 {
+                @apply md:mb-16;
+            }
+            &.pm-14 {
+                @apply md:mb-20;
+            }
+            &.pm-16 {
+                @apply md:mb-24;
+            }
+            &.pm-18 {
+                @apply md:mb-28;
+            }
+            &.pm-20 {
+                @apply md:mb-32;
+            }
+            &.pm-22 {
+                @apply md:mb-36;
+            }
+            &.pm-24 {
+                @apply md:mb-40;
+            }
+            &.pm-26 {
+                @apply md:mb-48;
+            }
+            &.pm-28 {
+                @apply md:mb-52;
+            }
+            &.pm-30 {
+                @apply md:mb-56;
+            }
+            &.pm-32 {
+                @apply md:mb-60;
+            }
+            &.pm-34 {
+                @apply md:mb-64;
+            }
+            &.pm-36 {
+                @apply md:mb-72;
+            }
+            &.pm-38 {
+                @apply md:mb-72;
+            }
+
+            &.pt-0 {
+                @apply md:mt-0;
+            }
+            &.pt-2 {
+                @apply md:mt-6;
+            }
+            &.pt-4 {
+                @apply md:mt-8;
+            }
+            &.pt-6 {
+                @apply md:mt-10;
+            }
+            &.pt-8 {
+                @apply md:mt-12;
+            }
+            &.pt-10 {
+                @apply md:mt-14;
+            }
+            &.pt-12 {
+                @apply md:mt-16;
+            }
+            &.pt-14 {
+                @apply md:mt-20;
+            }
+            &.pt-16 {
+                @apply md:mt-24;
+            }
+            &.pt-18 {
+                @apply md:mt-28;
+            }
+            &.pt-20 {
+                @apply md:mt-32;
+            }
+            &.pt-22 {
+                @apply md:mt-36;
+            }
+            &.pt-24 {
+                @apply md:mt-48;
+            }
+            &.pt-26 {
+                @apply md:mt-48;
+            }
+            &.pt-28 {
+                @apply md:mt-52;
+            }
+            &.pt-30 {
+                @apply md:mt-56;
+            }
+            &.pt-32 {
+                @apply md:mt-60;
+            }
+            &.pt-34 {
+                @apply md:mt-64;
+            }
+            &.pt-36 {
+                @apply md:mt-72;
+            }
+            &.pt-38 {
+                @apply md:mt-72;
+            }
+            &.sself-end {
+                @apply self-end;
+            }
+            &.sself-start {
+                @apply self-start;
+            }
+            &.sself-center {
+                @apply self-center;
+            }
+        }
+    }
+    .broken_text {
+        --font-width: 100;
+        font-variation-settings: 'wdth' var(--font-width, 100);
+    }
+</style>
+
+<script>
+    // import gsap from 'gsap'
+    class MbpBroken extends HTMLElement {
+        constructor() {
+            super()
+        }
+    }
+    customElements.define('mbp-broken', MbpBroken)
+</script>

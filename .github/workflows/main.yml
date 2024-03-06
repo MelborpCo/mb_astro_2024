@@ -23,6 +23,10 @@ jobs:
               run: |
                   npm install
                   npm run build
+              env:
+                STORYBLOK_TOKEN_PROD: $STORYBLOK_TOKEN_PROD
+                STORYBLOK_TOKEN_PREV: $STORYBLOK_TOKEN_PREV
+                STORYBLOK_TOKEN: $STORYBLOK_TOKEN
 
             - name: Sync files
               uses: SamKirkland/FTP-Deploy-Action@4.2.0

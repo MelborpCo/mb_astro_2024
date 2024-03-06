@@ -5,6 +5,8 @@ import ContactoInt from '../components/ContactoInt.astro'
 import { useStoryblokApi } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
+console.log('SAPI', import.meta.env.STORYBLOK_TOKEN_PROD)
+
 const { data } = await storyblokApi
     .get('cdn/stories/contacto', {
         version: 'published', // import.meta.env.DEV ? "draft" : "published",

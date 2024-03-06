@@ -15,6 +15,7 @@ const { data } = await storyblokApi
     .get('cdn/stories/home', {
         version: 'published', // import.meta.env.DEV ? "draft" : "published",
         resolve_relations: 'page.proyectos,page.destacado',
+        cv: 0,
     })
     .catch((e) => {
         console.error(e)

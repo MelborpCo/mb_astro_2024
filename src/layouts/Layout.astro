@@ -21,7 +21,6 @@ const { story_seo } = Astro.props
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" href="/icon.png" type="image/png" sizes="222x222" />
         <link rel="sitemap" href="/sitemap-index.xml" />
-        <meta name="generator" content={Astro.generator} />
         <SEO
             title={((story_seo as { title?: string }).title || 'Melborp _ Business Updaters') +
                 ' | Melborp _ Business Updaters'}
@@ -72,138 +71,145 @@ const { story_seo } = Astro.props
         </main>
 
         <script src="../scripts/mbp.js"></script>
-        <style is:global>
-            html.lenis {
-                height: auto;
-            }
-
-            .lenis.lenis-smooth {
-                scroll-behavior: auto !important;
-            }
-
-            .lenis.lenis-smooth [data-lenis-prevent] {
-                overscroll-behavior: contain;
-            }
-
-            .lenis.lenis-stopped {
-                overflow: hidden;
-            }
-
-            .lenis.lenis-scrolling iframe {
-                pointer-events: none;
-            }
-            :root {
-                --color-primary: #343434;
-                --color-primary-a: #343434cc;
-
-                --color-primary-50: #8b8b8b;
-                --color-primary-100: #828282;
-                --color-primary-200: #717171;
-                --color-primary-300: #5f5f5f;
-                --color-primary-400: #4d4d4d;
-                --color-primary-500: #343434;
-                --color-primary-600: #2e2e2e;
-                --color-primary-700: #222222;
-                --color-primary-800: #151515;
-                --color-primary-900: #080808;
-                --color-primary-950: #020202;
-
-                --color-secondary: #f9f9eb;
-                --color-secondary-a: #f9f9ebcc;
-                --color-secondary-a2: #f9f9eb28;
-                --color-secondary-50: #fefefd;
-                --color-secondary-100: #fefefb;
-                --color-secondary-200: #fdfcf7;
-                --color-secondary-300: #fbfbf3;
-                --color-secondary-400: #fafaef;
-                --color-secondary-500: #f9f9eb;
-                --color-secondary-600: #f4f4db;
-                --color-secondary-700: #eff0cc;
-                --color-secondary-800: #e9ebbc;
-                --color-secondary-900: #e3e6ac;
-                --color-secondary-950: #e0e4a4;
-            }
-            .dark {
-                --color-primary: #f9f9eb;
-                --color-primary-50: #fefefd;
-                --color-primary-100: #fefefb;
-                --color-primary-200: #fdfcf7;
-                --color-primary-300: #fbfbf3;
-                --color-primary-400: #fafaef;
-                --color-primary-500: #f9f9eb;
-                --color-primary-600: #f4f4db;
-                --color-primary-700: #eff0cc;
-                --color-primary-800: #e9ebbc;
-                --color-primary-900: #e3e6ac;
-                --color-primary-950: #e0e4a4;
-                --color-primary-a: #f9f9ebcc;
-
-                --color-secondary: #343434;
-                --color-secondary-a: #343434cc;
-                --color-secondary-a2: #f9f9eb47;
-                --color-secondary-50: #8b8b8b;
-                --color-secondary-100: #828282;
-                --color-secondary-200: #717171;
-                --color-secondary-300: #5f5f5f;
-                --color-secondary-400: #4d4d4d;
-                --color-secondary-500: #343434;
-                --color-secondary-600: #2e2e2e;
-                --color-secondary-700: #222222;
-                --color-secondary-800: #151515;
-                --color-secondary-900: #080808;
-                --color-secondary-950: #020202;
-            }
-            body {
-                @apply bg-secondary text-primary font-monospace;
-            }
-
-            .mbp__wrapper {
-                @apply flex flex-col px-4 lg:px-8 mx-auto w-full lg:max-w-9xl;
-            }
-            .mbp__header {
-                @apply pt-28 pb-20 bg-primary text-secondary;
-                .mbp__title {
-                    @apply text-5xl lg:text-6xl xl:text-7xl font-head lg:w-2/3 flex flex-col gap-2;
-                    span {
-                        @apply leading-[1.1];
-                    }
-                }
-            }
-            .menu__item_text {
-                p {
-                    @apply w-1/3 ml-5;
-                }
-            }
-            .mbp__text {
-                @apply prose max-w-none;
-            }
-
-            .mbp__button {
-                @apply flex items-center justify-center text-sm uppercase leading-none;
-                span {
-                    @apply flex h-9 items-center justify-center rounded-full bg-transparent px-8 pt-0.5 text-center text-primary transition-all duration-300 ease-in-out;
-                }
-                i {
-                    @apply flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-center text-primary transition-all duration-300 ease-in-out;
-                }
-                &:hover {
-                    span {
-                        @apply rounded-br-none rounded-tr-none bg-primary text-secondary;
-                    }
-                    i {
-                        @apply rounded-bl-none rounded-tl-none bg-primary text-secondary;
-                    }
-                }
-                &.small {
-                    @apply text-xs;
-                    span {
-                        @apply h-8 px-6;
-                    }
-                    i {
-                        @apply h-8 w-8;
-                    }
-                }
-            }
-        </style>
+        
     </body>
 </html>
+
+
+
+<style is:global>
+	html.lenis {
+		height: auto;
+	}
+
+	.lenis.lenis-smooth {
+		scroll-behavior: auto !important;
+	}
+
+	.lenis.lenis-smooth [data-lenis-prevent] {
+		overscroll-behavior: contain;
+	}
+
+	.lenis.lenis-stopped {
+		overflow: hidden;
+	}
+
+	.lenis.lenis-scrolling iframe {
+		pointer-events: none;
+	}
+	:root {
+		--color-primary: #343434;
+		--color-primary-a: #343434cc;
+
+		--color-primary-50: #8b8b8b;
+		--color-primary-100: #828282;
+		--color-primary-200: #717171;
+		--color-primary-300: #5f5f5f;
+		--color-primary-400: #4d4d4d;
+		--color-primary-500: #343434;
+		--color-primary-600: #2e2e2e;
+		--color-primary-700: #222222;
+		--color-primary-800: #151515;
+		--color-primary-900: #080808;
+		--color-primary-950: #020202;
+
+		--color-secondary: #f9f9eb;
+		--color-secondary-a: #f9f9ebcc;
+		--color-secondary-a2: #f9f9eb28;
+		--color-secondary-50: #fefefd;
+		--color-secondary-100: #fefefb;
+		--color-secondary-200: #fdfcf7;
+		--color-secondary-300: #fbfbf3;
+		--color-secondary-400: #fafaef;
+		--color-secondary-500: #f9f9eb;
+		--color-secondary-600: #f4f4db;
+		--color-secondary-700: #eff0cc;
+		--color-secondary-800: #e9ebbc;
+		--color-secondary-900: #e3e6ac;
+		--color-secondary-950: #e0e4a4;
+	}
+	.dark {
+		--color-primary: #f9f9eb;
+		--color-primary-50: #fefefd;
+		--color-primary-100: #fefefb;
+		--color-primary-200: #fdfcf7;
+		--color-primary-300: #fbfbf3;
+		--color-primary-400: #fafaef;
+		--color-primary-500: #f9f9eb;
+		--color-primary-600: #f4f4db;
+		--color-primary-700: #eff0cc;
+		--color-primary-800: #e9ebbc;
+		--color-primary-900: #e3e6ac;
+		--color-primary-950: #e0e4a4;
+		--color-primary-a: #f9f9ebcc;
+
+		--color-secondary: #343434;
+		--color-secondary-a: #343434cc;
+		--color-secondary-a2: #f9f9eb47;
+		--color-secondary-50: #8b8b8b;
+		--color-secondary-100: #828282;
+		--color-secondary-200: #717171;
+		--color-secondary-300: #5f5f5f;
+		--color-secondary-400: #4d4d4d;
+		--color-secondary-500: #343434;
+		--color-secondary-600: #2e2e2e;
+		--color-secondary-700: #222222;
+		--color-secondary-800: #151515;
+		--color-secondary-900: #080808;
+		--color-secondary-950: #020202;
+	}
+	body {
+		@apply bg-secondary text-primary font-monospace;
+	}
+
+	.mbp__wrapper {
+		@apply flex flex-col px-4 lg:px-8 mx-auto w-full lg:max-w-9xl;
+	}
+	.mbp__header {
+		@apply pt-28 pb-20 bg-primary text-secondary;
+		.mbp__title {
+			@apply text-5xl lg:text-6xl xl:text-7xl font-head lg:w-2/3 flex flex-col gap-2;
+			span {
+				@apply leading-[1.1];
+			}
+		}
+	}
+	.menu__item_text {
+		p {
+			@apply w-1/3 ml-5;
+		}
+	}
+	.mbp__text {
+		@apply prose max-w-none;
+	}
+
+	.mbp__button {
+		@apply flex items-center justify-center text-sm uppercase leading-none;
+		span {
+			@apply flex h-9 items-center justify-center rounded-full bg-transparent px-8 pt-0.5 text-center text-primary transition-all duration-300 ease-in-out;
+		}
+		i {
+			@apply flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-center text-primary transition-all duration-300 ease-in-out;
+		}
+		&:hover {
+			span {
+				@apply rounded-br-none rounded-tr-none bg-primary text-secondary;
+			}
+			i {
+				@apply rounded-bl-none rounded-tl-none bg-primary text-secondary;
+			}
+		}
+		&.small {
+			@apply text-xs;
+			span {
+				@apply h-8 px-6;
+			}
+			i {
+				@apply h-8 w-8;
+			}
+		}
+	}
+	.broken_text p{
+		@apply mb-4;
+	}
+</style>

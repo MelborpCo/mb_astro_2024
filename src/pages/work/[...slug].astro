@@ -39,6 +39,7 @@ const { slug } = Astro.params
 const { data } = await storyblokApi
     .get('cdn/stories/work/' + slug, {
         version: 'published',
+        cv: 0,
     })
     .catch((e) => {
         console.error(e)
@@ -85,6 +86,8 @@ const show_resultados =
     (story.content.interior != true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '') ||
     image ||
     (story.content.interior == true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '')
+
+
 
 const optim = '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
 const bg =
@@ -505,7 +508,7 @@ const class_h2 =
         }
     }
     .proyecto_resultados {
-        @apply py-20;
+        @apply pt-10 pb-10;
         .proyecto_resultados_intro {
             @apply flex gap-12 items-center justify-between;
             .resultados_info {

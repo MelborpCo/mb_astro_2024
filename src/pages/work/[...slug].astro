@@ -272,7 +272,9 @@ const class_h2 =
             })
         }
     </section>
-    <ProjectWork proyecto={next_project} next="Siguiente" />
+    <div class="next-proy">
+        <ProjectWork proyecto={next_project} next="Siguiente" />
+    </div>
 </Layout>
 
 <script>
@@ -283,7 +285,7 @@ const class_h2 =
 
             const id = '#' + this.id
             const mm = gsap.matchMedia()
-            mm.add('(min-width: 640px)', () => {
+            mm.add('(min-width: 768px)', () => {
                 const tl_MbpProyectoTop = gsap.timeline({
                     paused: true,
                     ease: 'power2.out',
@@ -555,6 +557,9 @@ const class_h2 =
         }
     }
     .proyecto_media {
-        @apply py-16 flex flex-col gap-y-16;
+        @apply py-16 flex flex-col lg:gap-y-36 2xl:gap-y-44;
+    }
+    .next-proy {
+        @apply pt-36;
     }
 </style>

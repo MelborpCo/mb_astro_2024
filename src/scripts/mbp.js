@@ -32,7 +32,7 @@ setHomeHero(gsap, ScrollTrigger, lenis)
 if (document.getElementById('mbp__header')) {
     const header = document.getElementById('mbp__header')
     const mm = gsap.matchMedia()
-    mm.add('(min-width: 640px)', () => {
+    mm.add('(min-width: 768px)', () => {
         const tlHero = gsap.timeline({
             ease: 'power2.out',
             delay: 0.3,

@@ -35,7 +35,7 @@ media.broken_item.forEach((item: media) => {
         classAr.push(`s${item.ubicacion}`)
     }
     if (item.size !== '') {
-        classAr.push(`${item.size}`)
+        // classAr.push(`${item.size}`)
     }
     if (item.abajo !== '') {
         classAr.push(`pm-${item.abajo}`)
@@ -83,15 +83,18 @@ const normalizeW = (value: number) => {
                         </>
                     )}
 
-                    {content[i] && (
-                        <>
-                            <div
+                    {
+                        /*<div
                                 style={`font-weight: ${item.wght}; --font-width: ${normalizeW(item.wdth)};`}
                                 class={`broken_text`}
                                 set:html={content[i]}
-                            />
-                        </>
-                    )}
+                            />*/
+                        content[i] && (
+                            <>
+                                <div class={`broken_text`} set:html={content[i]} />
+                            </>
+                        )
+                    }
                 </div>
             )
         })
@@ -404,7 +407,8 @@ const normalizeW = (value: number) => {
         }
     }
     .broken_text {
-        --font-width: 100;
+        @apply font-light text-2xl;
+        --font-width: 80;
         font-variation-settings: 'wdth' var(--font-width, 100);
     }
 </style>

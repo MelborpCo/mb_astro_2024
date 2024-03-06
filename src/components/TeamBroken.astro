@@ -40,7 +40,6 @@ media.team.forEach((item) => {
     }
     itemClasses.push(classAr.join(' '))
 })
-console.log(itemClasses)
 ---
 
 <mbp-broken-team id={'teams-' + media._uid} class="media_broken">
@@ -91,7 +90,7 @@ console.log(itemClasses)
             super()
             const id = '#' + this.id
             const mm = gsap.matchMedia()
-            mm.add('(min-width: 640px)', () => {
+            mm.add('(min-width: 768px)', () => {
                 const tl_MbpProyectoMedia = gsap.timeline({
                     paused: true,
                     ease: 'power2.out',

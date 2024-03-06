@@ -1,7 +1,7 @@
 export function setHomeHero(gsap, ScrollTrigger, lenis) {
     if (document.getElementById('mbp__hero')) {
         const mm = gsap.matchMedia()
-        mm.add('(min-width: 640px)', () => {
+        mm.add('(min-width: 768px)', () => {
             const tlHero = gsap.timeline({
                 ease: 'power2.out',
                 delay: 0.3,
@@ -121,7 +121,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
         projectsItems.forEach((item) => {
             const slug = item.dataset.slug
 
-            mm.add('(min-width: 640px)', () => {
+            mm.add('(min-width: 768px)', () => {
                 const tlImages = gsap.timeline({
                     paused: true,
                     ease: 'power2.out',
@@ -332,9 +332,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     // markers: true,
                     toggleClass: 'active',
                     // toggleActions: 'play play play play',
-                    onUpdate: ({ progress }) => {
-                        console.log('progress _>' + slug + ' ' + Math.floor(progress * 100))
-                    },
+                    onUpdate: ({ progress }) => {},
                     onComplete: () => {
                         if (tlImages !== null) {
                             tlImages.kill()

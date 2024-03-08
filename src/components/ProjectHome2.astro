@@ -20,11 +20,7 @@ const bg =
         : proyecto.content.bloques[0].poster.filename + optim
 ---
 
-<article
-    data-slug={slug}
-    id={`proyecto_${proyecto.slug}`}
-    class={`mbp__wrapper proyecto_tipo ${par ? 'tipo_2' : 'tipo_1'}`}
->
+<article data-slug={slug} id={`${proyecto.slug}`} class={`mbp__wrapper proyecto_tipo ${par ? 'tipo_2' : 'tipo_1'}`}>
     <div class="proyecto_over">
         <Image src={bg} alt={proyecto.content.nombre} width="1024" height="768" />
     </div>

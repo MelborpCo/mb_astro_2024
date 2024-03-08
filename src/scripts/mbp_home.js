@@ -29,12 +29,12 @@ export function setHomeHero(gsap, ScrollTrigger, lenis) {
             tlHero.fromTo(
                 '.mbp__hero',
                 {
-                    backkgrounColor: 'var(--color-primary-a)',
+                    backgroundColor: 'var(--color-primary-a)',
                     clipPath: 'inset(0 0 100% 0)',
                     opacity: 0.2,
                 },
                 {
-                    backkgrounColor: 'var(--color-primary)',
+                    backgroundColor: 'var(--color-primary)',
                     clipPath: 'inset(0 0 0% 0)',
                     opacity: 1,
                     duration: 0.2,
@@ -137,7 +137,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                 })
 
                 tlImages.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_title div div',
+                    '#' + slug + ' .proyecto_title div div',
                     {
                         autoAlpha: 0.5,
                         x: 0,
@@ -153,7 +153,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     },
                 )
                 tlImages.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_arrow',
+                    '#' + slug + ' .proyecto_arrow',
                     {
                         autoAlpha: 0.8,
                         x: '-30vw',
@@ -171,7 +171,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '<',
                 )
                 tlImages.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_media',
+                    '#' + slug + ' .proyecto_media',
                     {
                         x: -20,
                         autoAlpha: 0,
@@ -188,7 +188,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '-=0.3',
                 )
                 tlImages.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_data_int',
+                    '#' + slug + ' .proyecto_data_int',
                     {
                         y: -10,
                         autoAlpha: 0,
@@ -202,7 +202,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '<',
                 )
 
-                const over = document.querySelector('#proyecto_' + slug + ' .proyecto_over img')
+                const over = document.querySelector('#' + slug + ' .proyecto_over img')
                 const tlHover = gsap.timeline({
                     paused: true,
                     ease: 'power4.out',
@@ -212,7 +212,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                 })
 
                 tlHover.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_data .to_hide',
+                    '#' + slug + ' .proyecto_data .to_hide',
                     {
                         x: 0,
                         y: 0,
@@ -230,7 +230,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                 )
 
                 tlHover.to(
-                    '#proyecto_' + slug,
+                    '#' + slug,
                     {
                         color: 'var(--color-primary)',
                         duration: 0.3,
@@ -239,7 +239,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '<',
                 )
                 tlHover.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_over',
+                    '#' + slug + ' .proyecto_over',
                     {
                         clipPath: 'inset(0% 100% 0% 0%)',
                     },
@@ -253,7 +253,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                 )
 
                 tlHover.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_media',
+                    '#' + slug + ' .proyecto_media',
                     {
                         opacity: 1,
                     },
@@ -271,7 +271,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                 )
 
                 tlHover.to(
-                    '#proyecto_' + slug + ' .proyecto_title div div',
+                    '#' + slug + ' .proyecto_title div div',
                     {
                         x: '3rem',
                         autoAlpha: 1,
@@ -283,7 +283,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '-=1',
                 )
                 tlHover.fromTo(
-                    '#proyecto_' + slug + ' .proyecto_title_int_nom span',
+                    '#' + slug + ' .proyecto_title_int_nom span',
                     {
                         x: 10,
                         clipPath: 'inset(0% 100% 0% 0%)',
@@ -299,7 +299,7 @@ export function setHomeProjects(gsap, ScrollTrigger, lenis) {
                     '-=1.3',
                 )
 
-                const hover = document.querySelectorAll('#proyecto_' + slug + ' .pr_hover')
+                const hover = document.querySelectorAll('#' + slug + ' .pr_hover')
                 hover.forEach((item) => {
                     item.addEventListener('mouseenter', () => {
                         if (tlImages !== null) {

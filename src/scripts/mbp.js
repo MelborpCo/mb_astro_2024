@@ -16,6 +16,17 @@ lenis.on('scroll', ({ scroll }) => {
         document.querySelector('.mbp__nav nav').classList.remove('str')
     }
 })
+lenis.on('resize', () => {
+    ScrollTrigger.refresh()
+})
+
+if (window.location.hash) {
+    const hast = window.location.hash.split('#')[1]
+    lenis.scrollTo('#' + hast, {
+        offset: -60,
+    })
+}
+
 // lenis.on('scroll', ScrollTrigger.update)
 gsap.ticker.add((time) => {
     lenis.raf(time * 1000)
@@ -45,12 +56,12 @@ if (document.getElementById('mbp__header')) {
         tlHero.fromTo(
             '.mbp__header',
             {
-                backkgrounColor: 'var(--color-primary-a)',
+                backgroundColor: 'var(--color-primary-a)',
                 clipPath: 'inset(0 0 100% 0)',
                 opacity: 0.2,
             },
             {
-                backkgrounColor: 'var(--color-primary)',
+                backgroundColor: 'var(--color-primary)',
                 clipPath: 'inset(0 0 0% 0)',
                 opacity: 1,
                 duration: 0.2,

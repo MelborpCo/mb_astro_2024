@@ -46,7 +46,7 @@ const { proyecto } = Astro.props
 
 <style>
     .menu__item {
-        @apply cursor-default relative w-full;
+        @apply relative w-full cursor-default;
 
         .menu__item-link {
             -webkit-text-stroke: 0.5px var(--color-primary-400);
@@ -55,37 +55,36 @@ const { proyecto } = Astro.props
             text-fill-color: transparent;
             color: transparent;
             transition: all 0.4s;
-            @apply text-[5vw] container mx-auto cursor-pointer relative font-head font-thin uppercase flex flex-row gap-2 items-start justify-start text-nowrap leading-none;
+            @apply container relative mx-auto flex cursor-pointer flex-row items-start justify-start gap-2 text-nowrap font-head text-[5vw] font-thin uppercase leading-none;
             &:hover {
-                @apply opacity-0 duration-[0.4s] -translate-x-7;
+                @apply -translate-x-7 opacity-0 duration-[0.4s];
             }
             &::before {
                 all: initial;
                 counter-increment: menu;
                 content: counter(menu);
                 pointer-events: none;
-                @apply font-monospace block;
+                @apply block font-monospace;
             }
         }
         .menu__item_text {
             @apply container mx-auto select-none opacity-10;
         }
         .menu__item_imgs {
-            @apply flex flex-row w-screen justify-end absolute h-[30vh] max-h-[600px] top-[50%] left-0 pointer-events-none opacity-0;
+            @apply pointer-events-none absolute left-0 top-[50%] flex h-[30vh] max-h-[600px] w-screen flex-row justify-end opacity-0;
             .menu__item-img {
-                pointer-events: none;
-                @apply object-cover pointer-events-none h-full  aspect-home opacity-0 transition-all duration-500;
+                @apply pointer-events-none aspect-home h-full  object-cover opacity-0 transition-all duration-500;
                 &.img_1 {
                     transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
-                    @apply delay-0 max-w-[16vw];
+                    @apply max-w-[16vw] delay-0;
                 }
                 &.img_2 {
                     transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
-                    @apply delay-200 max-w-[20vw];
+                    @apply max-w-[20vw] delay-200;
                 }
                 &.img_3 {
                     transform: translate3d(50%, -30%, 0) translate3d(0, 20px, 0);
-                    @apply delay-500 max-w-[14vw];
+                    @apply max-w-[14vw] delay-500;
                 }
             }
         }
@@ -109,19 +108,18 @@ const { proyecto } = Astro.props
 
     .marquee {
         width: var(--marquee-width);
-        /* mix-blend-mode: color-burn; */
-        @apply absolute top-0 left-0 overflow-hidden pointer-events-none leading-relaxed mix-blend-color-burn -rotate-2;
+        @apply pointer-events-none absolute left-0 top-0 -rotate-2 overflow-hidden leading-relaxed mix-blend-color-burn;
         .marquee__inner {
             transform: translate3d(var(--move-initial), 0, 0);
             animation: marquee 10s linear infinite;
             animation-play-state: paused;
             transition: opacity 0.1s;
-            @apply w-fit flex relative opacity-0 gap-4  text-[5vw];
+            @apply relative flex w-fit gap-4 text-[5vw]  opacity-0;
             b {
-                @apply text-nowrap text-primary leading-none text-center font-monospace font-thin uppercase;
+                @apply text-nowrap text-center font-monospace font-thin uppercase leading-none text-primary;
             }
             span {
-                @apply text-nowrap text-primary leading-none text-center font-head uppercase;
+                @apply text-nowrap text-center font-head uppercase leading-none text-primary;
             }
         }
     }

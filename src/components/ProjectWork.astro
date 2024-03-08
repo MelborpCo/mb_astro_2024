@@ -110,14 +110,14 @@ const melborp = renderRichText(proyecto.content.melborp)
                     @apply mb-2;
                 }
                 &-fl {
-                    @apply flex gap-y-8 gap-x-4 flex-col-reverse items-center justify-between transition-all duration-1000 ease-in-out md:flex-row;
+                    @apply flex flex-col-reverse items-center justify-between gap-x-4 gap-y-8 transition-all duration-1000 ease-in-out md:flex-row;
                     &-title {
-                        @apply w-full text-sm md:w-4/12 flex flex-col gap-4;
+                        @apply flex w-full flex-col gap-4 text-sm md:w-4/12;
                         p {
                             @apply text-base;
                         }
                         h4 {
-                            @apply text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl uppercase font-head;
+                            @apply font-head text-4xl uppercase lg:text-5xl xl:text-6xl 2xl:text-7xl;
                         }
                         h3 {
                             @apply text-2xl;

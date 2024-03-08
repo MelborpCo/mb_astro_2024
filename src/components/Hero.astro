@@ -48,19 +48,18 @@ import { Image } from 'astro:assets'
         --duration: 20s;
         --gap: var(--space);
 
-        gap: var(--gap);
-        @apply col-start-1 row-start-1 z-0 flex flex-col overflow-hidden select-none py-12;
+        @apply z-0 col-start-1 row-start-1 flex select-none flex-col gap-0 overflow-hidden;
 
         .mbp__hero_marquee_images {
             gap: var(--gap);
 
-            @apply shrink-0 flex justify-around items-center min-w-full my-auto;
+            @apply my-auto flex h-1/2 min-w-full shrink-0 items-center justify-around;
             &.ready {
                 animation: scroll var(--duration) linear infinite;
             }
             img {
                 max-width: clamp(10rem, 1rem + 28vmin, 20rem);
-                @apply object-cover rounded-2xl;
+                @apply rounded-2xl object-cover px-0 py-8;
                 &.t_1 {
                     @apply aspect-home1;
                 }

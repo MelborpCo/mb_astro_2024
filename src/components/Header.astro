@@ -29,16 +29,16 @@ console.log(currentPath)
 
 <style>
     header {
-        @apply z-50 flex justify-center items-center py-8 h-24 fixed top-0 left-0 w-full mix-blend-difference;
+        @apply fixed left-0 top-0 z-50 flex h-24 w-full items-center justify-center py-8 mix-blend-difference;
         nav {
-            @apply flex justify-between items-center w-full mix-blend-exclusion text-white  transition-all duration-300;
+            @apply flex w-full items-center justify-between text-white mix-blend-exclusion  transition-all duration-300;
             &.str {
                 @apply px-4;
             }
             .mbp__nav {
                 @apply flex gap-4 font-light;
                 a {
-                    @apply text-sm uppercase font-light;
+                    @apply text-sm font-light uppercase;
                     &.active {
                         @apply font-bold;
                     }

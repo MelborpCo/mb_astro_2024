@@ -77,9 +77,9 @@ const descripcion = renderRichText(media.descripcion)
                 b {
                     @apply font-head text-8xl text-secondary shadow-sm transition-all md:text-9xl;
                     span {
-                        @apply flex gap-2 justify-center items-center;
+                        @apply flex items-center justify-center gap-2;
                         i {
-                            @apply text-2xl md:text-7xl pt-8;
+                            @apply pt-8 text-2xl md:text-7xl;
                             &.iconp {
                                 @apply text-4xl md:text-9xl;
                             }
@@ -94,7 +94,7 @@ const descripcion = renderRichText(media.descripcion)
                 &.dif {
                     b {
                         span {
-                            @apply text-secondary mix-blend-exclusion relative;
+                            @apply relative text-secondary mix-blend-exclusion;
                             &.no-multy {
                                 -webkit-mix-blend-mode: normal;
                                 -moz-mix-blend-mode: normal;

@@ -71,12 +71,8 @@ const { story_seo } = Astro.props
         </main>
 
         <script src="../scripts/mbp.js"></script>
-        
     </body>
 </html>
-
-
-
 <style is:global>
 	html.lenis {
 		height: auto;
@@ -159,16 +155,16 @@ const { story_seo } = Astro.props
 		--color-secondary-950: #020202;
 	}
 	body {
-		@apply bg-secondary text-primary font-monospace;
+		@apply bg-secondary font-monospace text-primary;
 	}
 
 	.mbp__wrapper {
-		@apply flex flex-col px-4 lg:px-8 mx-auto w-full lg:max-w-9xl;
+		@apply mx-auto flex w-full flex-col px-4 lg:max-w-9xl lg:px-8;
 	}
 	.mbp__header {
-		@apply pt-28 pb-20 bg-primary text-secondary;
+		@apply bg-primary pb-20 pt-28 text-secondary;
 		.mbp__title {
-			@apply text-5xl lg:text-6xl xl:text-7xl font-head lg:w-2/3 flex flex-col gap-2;
+			@apply flex flex-col gap-2 font-head text-5xl lg:w-2/3 lg:text-6xl xl:text-7xl;
 			span {
 				@apply leading-[1.1];
 			}
@@ -176,7 +172,7 @@ const { story_seo } = Astro.props
 	}
 	.menu__item_text {
 		p {
-			@apply w-1/3 ml-5;
+			@apply ml-5 w-1/3;
 		}
 	}
 	.mbp__text {
@@ -209,7 +205,7 @@ const { story_seo } = Astro.props
 			}
 		}
 	}
-	.broken_text p{
+	.broken_text p {
 		@apply mb-4;
 	}
 </style>

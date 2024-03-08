@@ -87,8 +87,6 @@ const show_resultados =
     image ||
     (story.content.interior == true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '')
 
-
-
 const optim = '/m/1024x768/filters:quality(10):blur(30):brightness(40)'
 const bg =
     story.content.home[0].media1.filename.split('.').pop() != 'mp4'
@@ -379,16 +377,16 @@ const class_h2 =
 
 <style>
     .proyecto_top {
-        @apply w-full grid grid-cols-1 grid-rows-1 overflow-hidden;
+        @apply grid w-full grid-cols-1 grid-rows-1 overflow-hidden;
         /* &::after {
             content: '';
             @apply block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grd2;
         } */
         .proyecto_over {
-            @apply md:opacity-0 md:grid z-0 col-start-1 col-end-2 row-start-1 row-end-2 rounded-3xl select-none pointer-events-none backdrop-blur-3xl bg-secondary-a2 grid-cols-1 grid-rows-1 overflow-hidden w-full h-full;
+            @apply pointer-events-none z-0 col-start-1 col-end-2 row-start-1 row-end-2 h-full w-full select-none grid-cols-1 grid-rows-1 overflow-hidden rounded-3xl bg-secondary-a2 backdrop-blur-3xl md:grid md:opacity-0;
             &::before {
                 content: '';
-                @apply overflow-hidden block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grrf;
+                @apply z-10 col-start-1 col-end-2 row-start-1 row-end-2 block h-full w-full overflow-hidden bg-grrf;
             }
             /* &::after {
                 content: '';
@@ -396,23 +394,22 @@ const class_h2 =
             } */
             img {
                 transform: rotate(0deg) scale(1.8);
-                @apply z-0 col-start-1 row-start-1 col-end-2 row-end-2 blur-xl object-cover w-full h-full opacity-40 aspect-[16/9]  mix-blend-lighten;
+                @apply z-0 col-start-1 col-end-2 row-start-1 row-end-2 aspect-[16/9] h-full w-full object-cover opacity-40 mix-blend-lighten  blur-xl;
 
                 &.init {
-                    animation-play-state: running;
-                    @apply animate-pert;
+                    @apply animation-paused md:animation-running md:animate-pert;
                     @media (prefers-reduced-motion: reduce) {
-                        animation-play-state: paused;
+                        @apply animation-paused;
                     }
                 }
             }
         }
         .proyecto_head {
-            @apply md:opacity-0 pt-28 z-20 col-start-1 col-end-2 row-start-1 row-end-2 pb-20;
+            @apply z-20 col-start-1 col-end-2 row-start-1 row-end-2 pb-20 pt-28 md:opacity-0;
             .proyecto_info {
-                @apply flex flex-col-reverse md:flex-row md:gap-8 md:items-stretch md:justify-between;
+                @apply flex flex-col-reverse md:flex-row md:items-stretch md:justify-between md:gap-8;
                 .proyecto_info_text {
-                    @apply md:w-6/12 flex flex-col gap-y-8;
+                    @apply flex flex-col gap-y-8 md:w-6/12;
                     &.left {
                     }
                     .regresar {
@@ -460,7 +457,7 @@ const class_h2 =
                         }
                     }
                     .proyecto_info {
-                        @apply flex flex-col gap-y-8 mt-auto;
+                        @apply mt-auto flex flex-col gap-y-8;
 
                         .info {
                             @apply flex flex-col gap-y-0;
@@ -480,9 +477,9 @@ const class_h2 =
                         .problem_melborp {
                             @apply flex gap-8;
                             div {
-                                @apply flex flex-col gap-y-2 flex-1;
+                                @apply flex flex-1 flex-col gap-y-2;
                                 h4 {
-                                    @apply text-2xl font-head;
+                                    @apply font-head text-2xl;
                                 }
                                 div {
                                     @apply text-sm font-light leading-snug;
@@ -499,18 +496,18 @@ const class_h2 =
                     }
                 }
                 .imagen {
-                    @apply md:opacity-0 md:w-6/12;
+                    @apply md:w-6/12 md:opacity-0;
                     img {
-                        @apply block h-full w-full object-cover aspect-header;
+                        @apply block aspect-header h-full w-full object-cover;
                     }
                 }
             }
         }
     }
     .proyecto_resultados {
-        @apply pt-10 pb-10;
+        @apply pb-10 pt-10;
         .proyecto_resultados_intro {
-            @apply flex gap-12 items-center justify-between;
+            @apply flex items-center justify-between gap-12;
             .resultados_info {
                 @apply flex-1;
                 .resultadoc {
@@ -521,11 +518,11 @@ const class_h2 =
                         }
                     }
                     img {
-                        @apply mix-blend-multiply w-full min-w-[450px];
+                        @apply w-full min-w-[450px] mix-blend-multiply;
                     }
                 }
                 .resultadoc_intro {
-                    @apply font-head min-w-[150px];
+                    @apply min-w-[150px] font-head;
                     &.nresultados {
                         &.text-std {
                             @apply text-4xl md:text-5xl;
@@ -537,13 +534,13 @@ const class_h2 =
         .resultados {
             @apply flex-auto;
             .listado {
-                @apply flex flex-wrap gap-x-8 gap-y-2 justify-end items-stretch basis-1/2;
+                @apply flex basis-1/2 flex-wrap items-stretch justify-end gap-x-8 gap-y-2;
                 .resultado {
-                    @apply flex flex-col pl-5 py-2 text-base leading-loose gap-2 flex-1 min-w-[250px] border-l border-primary-100;
+                    @apply flex min-w-[250px] flex-1 flex-col gap-2 border-l border-primary-100 py-2 pl-5 text-base leading-loose;
                     .res_cifra {
                         @apply flex items-baseline gap-3;
                         b {
-                            @apply mt-2 font-bold block text-4xl tracking-tighter;
+                            @apply mt-2 block text-4xl font-bold tracking-tighter;
                             u {
                                 @apply text-lg;
                             }
@@ -560,7 +557,7 @@ const class_h2 =
         }
     }
     .proyecto_media {
-        @apply py-16 flex flex-col lg:gap-y-36 2xl:gap-y-44;
+        @apply flex flex-col py-16 lg:gap-y-36 2xl:gap-y-44;
     }
     .next-proy {
         @apply pt-36;

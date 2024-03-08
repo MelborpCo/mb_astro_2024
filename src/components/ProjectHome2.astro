@@ -141,45 +141,41 @@ const bg =
 
 <style define:vars={{ poster }}>
     .proyecto_tipo {
-        @apply grid h-full w-full auto-rows-auto grid-cols-6 justify-center gap-2 md:grid-cols-12 md:grid-rows-6 md:gap-4 transition-colors rounded-3xl overflow-hidden;
+        @apply grid h-full w-full auto-rows-auto grid-cols-6 justify-center gap-2 overflow-hidden rounded-3xl transition-colors md:grid-cols-12 md:grid-rows-6 md:gap-4;
         .proyecto_over {
             /* background: var(--poster); */
-            @apply hidden md:grid z-20 col-start-1 col-end-6 row-start-1 row-end-6 md:col-end-13 md:row-end-7 rounded-3xl select-none pointer-events-none backdrop-blur-3xl bg-secondary-a2  grid-cols-1 grid-rows-1;
+            @apply pointer-events-none z-20 col-start-1 col-end-6 row-start-1 row-end-6 hidden select-none grid-cols-1 grid-rows-1 rounded-3xl bg-secondary-a2 backdrop-blur-3xl md:col-end-13  md:row-end-7 md:grid;
             &::before {
                 content: '';
-                @apply block z-10 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grrf;
+                @apply z-10 col-start-1 col-end-2 row-start-1 row-end-2 block h-full w-full bg-grrf;
             }
-            /* &::after {
-                content: '';
-                @apply block z-20 w-full h-full col-start-1 row-start-1 col-end-2 row-end-2 bg-grd;
-            } */
             img {
                 transform: rotate(0deg) scale(1.8);
-                @apply z-0 col-start-1 row-start-1 col-end-2 row-end-2 blur-xl object-cover w-full h-full opacity-10 aspect-[16/9]  mix-blend-lighten;
+                @apply z-0 col-start-1 col-end-2 row-start-1 row-end-2 aspect-[16/9] h-full w-full object-cover opacity-10 mix-blend-lighten blur-xl;
 
                 &.init {
-                    animation-play-state: running;
-                    @apply animate-pert;
+                    /* animation-play-state: running; */
+                    @apply animation-paused md:animation-running md:animate-pert;
                     @media (prefers-reduced-motion: reduce) {
-                        animation-play-state: paused;
+                        @apply animation-paused;
                     }
                 }
             }
         }
         .proyecto_title {
-            @apply z-20 col-start-1 col-end-6 row-start-1 row-end-2 md:col-end-9 md:row-start-2 md:row-end-6 opacity-100 dark:text-secondary;
+            @apply z-20 col-start-1 col-end-6 row-start-1 row-end-2 opacity-100 dark:text-secondary md:col-end-9 md:row-start-2 md:row-end-6;
             .proyecto_title_int {
-                @apply flex flex-col gap-y-2 h-full w-full;
+                @apply flex h-full w-full flex-col gap-y-2;
                 .proyecto_title_int_cliente {
-                    @apply leading-none font-head uppercase text-2xl lg:text-4xl;
+                    @apply font-head text-2xl uppercase leading-none lg:text-4xl;
                 }
                 .proyecto_title_int_nom {
-                    @apply flex flex-wrap font-light gap-x-2 leading-tight mb-8 font-head uppercase;
+                    @apply mb-8 flex flex-wrap gap-x-2 font-head font-light uppercase leading-tight;
                     &.text-small {
-                        @apply text-3xl lg:text-7xl lg:w-full;
+                        @apply text-3xl lg:w-full lg:text-7xl;
                     }
                     &.text-normal {
-                        @apply text-4xl lg:text-8xl lg:w-3/5;
+                        @apply text-4xl lg:w-3/5 lg:text-8xl;
                     }
                     span {
                         transition: font-variation-settings 0.5 ease-in-out;
@@ -187,10 +183,10 @@ const bg =
                     }
                 }
                 .proyecto_title_int_titular {
-                    @apply hidden md:block font-monospace font-bold text-2xl;
+                    @apply hidden font-monospace text-2xl font-bold md:block;
                 }
                 .proyecto_title_int_intro {
-                    @apply hidden md:flex font-monospace font-light text-base flex-col gap-2;
+                    @apply hidden flex-col gap-2 font-monospace text-base font-light md:flex;
                 }
             }
         }
@@ -201,18 +197,18 @@ const bg =
             }
         }
         .proyecto_data {
-            @apply z-30 md:pt-10 md:px-10 text-primary;
+            @apply z-30 text-primary md:px-10 md:pt-10;
             .proyecto_data_int {
                 @apply opacity-100;
                 .proyecto_data_content {
                     h4 {
-                        @apply mb-4 text-2xl uppercase leading-none font-head;
+                        @apply mb-4 font-head text-2xl uppercase leading-none;
                         @media (max-width: 768px) {
                             @apply mt-4 text-2xl normal-case leading-none;
                         }
                     }
                     .proyecto_body {
-                        @apply mb-4 text-sm font-light leading-5 lg:mr-3 flex flex-col gap-2;
+                        @apply mb-4 flex flex-col gap-2 text-sm font-light leading-5 lg:mr-3;
                         @media (max-width: 768px) {
                             @apply text-base leading-tight;
                         }
@@ -221,7 +217,7 @@ const bg =
                         }
                     }
                     .proyecto_ver {
-                        @apply text-base font-bold uppercase float-left;
+                        @apply float-left text-base font-bold uppercase;
                         @media (max-width: 768px) {
                             @apply ml-0;
                         }
@@ -239,7 +235,7 @@ const bg =
             @apply z-0 justify-self-center overflow-hidden;
             img,
             video {
-                @apply h-full w-full object-contain z-0;
+                @apply z-0 h-full w-full object-contain;
             }
             img-1 {
                 @apply aspect-home1;

@@ -26,46 +26,50 @@ const story = data.story
 
 <!-- <StoryblokComponent blok={story.content} /> -->
 <Layout story_seo={story.content.seo}>
-    <section id="mbp__hero" class="mbp__wrapper">
-        <div class="mbp__hero">
-            <div class="mbp__hero_title">
-                <p class="anim">{story.content.intro1}</p>
-                <h1 class="anim"><span>MELMBORP |</span>{story.content.intro2}</h1>
-                <p class="anim">{story.content.intro3}</p>
+    <div class="mbp__intro">
+        <section id="mbp__hero" class="mbp__wrapper">
+            <div class="mbp__hero">
+                <div class="mbp__hero_title">
+                    <p class="anim">{story.content.intro1}</p>
+                    <h1 class="anim"><span>MELMBORP |</span>{story.content.intro2}</h1>
+                    <p class="anim">{story.content.intro3}</p>
+                </div>
+                <i class="arrow fa-thin fa-arrow-down-long"></i>
+                <Hero story={story} />
             </div>
-            <Hero story={story} />
-        </div>
-    </section>
-    <section class="mbp__marquee">
-        <div class="mbp__marquee_wrap">
-            {
-                story.content.clientes.map((cliente) => {
-                    return (
-                        <Image
-                            src={cliente.filename + '/m/200x100'}
-                            alt=""
-                            width="400"
-                            height="400"
-                            style="aspect-ratio: 2/1;"
-                        />
-                    )
-                })
-            }
-            {
-                story.content.clientes.map((cliente) => {
-                    return (
-                        <Image
-                            src={cliente.filename + '/m/200x100'}
-                            alt=""
-                            width="400"
-                            height="400"
-                            style="aspect-ratio: 2/1;"
-                        />
-                    )
-                })
-            }
-        </div>
-    </section>
+        </section>
+        <section class="mbp__marquee">
+            <div class="mbp__marquee_wrap">
+                {
+                    story.content.clientes.map((cliente) => {
+                        return (
+                            <Image
+                                src={cliente.filename + '/m/200x100'}
+                                alt=""
+                                width="400"
+                                height="400"
+                                style="aspect-ratio: 2/1;"
+                            />
+                        )
+                    })
+                }
+                {
+                    story.content.clientes.map((cliente) => {
+                        return (
+                            <Image
+                                src={cliente.filename + '/m/200x100'}
+                                alt=""
+                                width="400"
+                                height="400"
+                                style="aspect-ratio: 2/1;"
+                            />
+                        )
+                    })
+                }
+            </div>
+        </section>
+    </div>
+
     <section id="mbp__projects" class="mbp__projects">
         <div class="menu">
             {
@@ -86,44 +90,48 @@ const story = data.story
         --move-final: calc(-50% + var(--offset));
         --item-font-size: 10vw;
     }
-    #mbp__hero {
-        @apply mt-24 md:opacity-0;
-        .mbp__hero {
-            @apply overflow-hidden grid grid-cols-1 grid-rows-1 w-full h-auto bg-primary text-secondary rounded-3xl min-h-[calc(100vh-14rem)];
-            .mbp__hero_title {
-                @apply bg-primary-a col-start-1 row-start-1 flex flex-col gap-4 items-center justify-center px-12 text-center z-10;
-                h1 {
-                    @apply text-6xl md:text-8xl font-head uppercase;
-                    span {
-                        @apply hidden;
+    .mbp__intro {
+        #mbp__hero {
+            @apply mt-24 md:opacity-0;
+            .mbp__hero {
+                @apply grid h-auto min-h-[calc(100dvh-14rem)] w-full grid-cols-1 grid-rows-1 overflow-hidden rounded-3xl bg-primary text-secondary;
+                .mbp__hero_title {
+                    @apply z-10 col-start-1 row-start-1 flex flex-col items-center justify-center gap-4 bg-primary-a px-12 text-center;
+                    h1 {
+                        @apply font-head text-6xl uppercase md:text-8xl;
+                        span {
+                            @apply hidden;
+                        }
+                    }
+                    p {
+                        @apply font-monospace text-base font-extralight uppercase;
                     }
                 }
-                p {
-                    @apply font-monospace text-base font-extralight uppercase;
+                .arrow {
+                    @apply z-20 col-start-1 row-start-1 mb-8 animate-bounce self-end justify-self-center text-5xl;
+                }
+            }
+        }
+        .mbp__marquee {
+            --duration: 40s;
+            --gap: var(--spacec);
+            gap: var(--gap);
+            @apply flex h-32 select-none flex-col overflow-hidden mix-blend-multiply;
+            .mbp__marquee_wrap {
+                gap: var(--gap);
+                animation: scrollc var(--duration) linear infinite;
+                @apply my-auto flex min-w-full shrink-0 items-center justify-around;
+                img {
+                    @apply aspect-square max-w-[110px] rounded-2xl bg-transparent  object-cover dark:invert;
                 }
             }
         }
     }
-    .mbp__marquee {
-        --duration: 40s;
-        --gap: var(--spacec);
-        gap: var(--gap);
-        @apply flex flex-col overflow-hidden select-none h-32 mix-blend-multiply;
-        .mbp__marquee_wrap {
-            gap: var(--gap);
-            animation: scrollc var(--duration) linear infinite;
-            @apply shrink-0 flex justify-around items-center min-w-full my-auto;
-            img {
-                @apply max-w-[110px] aspect-square object-cover rounded-2xl  bg-transparent dark:invert;
-            }
-        }
-    }
-
     .mbp__hero_marquee {
         --duration: 20s;
         --gap: var(--space);
         gap: var(--gap);
-        @apply col-start-1 row-start-1 z-0 flex flex-col overflow-hidden select-none py-12;
+        @apply z-0 col-start-1 row-start-1 flex select-none flex-col overflow-hidden py-12;
     }
     @media (prefers-reduced-motion: reduce) {
         .mbp__hero_marquee {
@@ -142,6 +150,6 @@ const story = data.story
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         counter-reset: menu;
-        @apply select-none px-0 py-[12vh] flex flex-col gap-y-16 overflow-x-hidden;
+        @apply flex select-none flex-col gap-y-16 overflow-x-hidden px-0 py-[12vh];
     }
 </style>

@@ -1,4 +1,15 @@
 /** @type {import('tailwindcss').Config} */
+
+const componentes = ({ addComponents, theme }) => {
+    addComponents({
+        '.animation-running': {
+            animationPlayState: 'running',
+        },
+        '.animation-paused': {
+            animationPlayState: 'paused',
+        },
+    })
+}
 export default {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     theme: {
@@ -73,5 +84,5 @@ export default {
         },
     },
     darkMode: 'class',
-    plugins: [require('tailwindcss-debug-screens'), require('@tailwindcss/typography')],
+    plugins: [componentes, require('tailwindcss-debug-screens'), require('@tailwindcss/typography')],
 }

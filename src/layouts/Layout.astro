@@ -71,16 +71,18 @@ const { story_seo } = Astro.props
         </main>
 
         <script src="../scripts/mbp.js"></script>
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-31253831-1"></script>
-		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-31253831-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+                dataLayer.push(arguments)
+            }
+            gtag('js', new Date())
 
-		gtag('config', 'UA-31253831-1');
-		</script>
-
+            gtag('config', 'UA-31253831-1')
+        </script>
+        
     </body>
 </html>
 <style is:global>

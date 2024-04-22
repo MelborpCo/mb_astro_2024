@@ -7,6 +7,8 @@ import ProjectWork from '../../components/ProjectWork.astro'
 import { useStoryblokApi, renderRichText } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
+const isProd = import.meta.env.PROD
+
 // https://api.storyblok.com/v2/cdn/links?cv=1708977337&per_page=100&starts_with=work/&token=7sDrNI4uruLzNuscT59e4Qtt&version=published
 
 export async function getStaticPaths() {
@@ -39,12 +41,13 @@ const { slug } = Astro.params
 const { data } = await storyblokApi
     .get('cdn/stories/work/' + slug, {
         version: 'published',
-        cv: 0,
+        cv: Date.now(), // isProd ? 0 : Date.now()
     })
     .catch((e) => {
         console.error(e)
         return { data: {} }
     })
+
 const story = data.story
 
 const proyectos = await storyblokApi.get(`cdn/stories/`, {
@@ -83,6 +86,7 @@ const image = story.content.image ? story.content.image.filename : false
 
 const resultados_show = story.content.resultados ? story.content.resultados.length > 0 : false
 const show_resultados =
+    resultados_show ||
     (story.content.interior != true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '') ||
     image ||
     (story.content.interior == true && resultadoc && resultadoc.replace(/(<([^>]+)>)/gi, '') != '')
@@ -181,7 +185,7 @@ const class_h2 =
         </div>
     </mbp-proyecto-top>
     {
-        show_resultados && (
+        resultados_show && (
             <section class="proyecto_resultados">
                 <div class="mbp__wrapper">
                     <div class="proyecto_resultados_intro">
@@ -307,7 +311,7 @@ const class_h2 =
                         autoAlpha: 1,
                         duration: 0.5,
                         ease: 'power2.inOut',
-                    },
+                    }
                 )
                 tl_MbpProyectoTop.fromTo(
                     `${id} .proyecto_head`,
@@ -319,7 +323,7 @@ const class_h2 =
                         duration: 1,
                         ease: 'power2.inOut',
                     },
-                    '-=0.1',
+                    '-=0.1'
                 )
                 tl_MbpProyectoTop.fromTo(
                     `${id} .mbp_ap`,
@@ -336,7 +340,7 @@ const class_h2 =
                         ease: 'power2.Out',
                         stagger: 0.2,
                     },
-                    '-=0.3',
+                    '-=0.3'
                 )
                 tl_MbpProyectoTop.fromTo(
                     `.proyecto_resultados`,
@@ -352,7 +356,7 @@ const class_h2 =
                         duration: 0.8,
                         ease: 'power2.out',
                     },
-                    '-=0.8',
+                    '-=0.8'
                 )
 
                 // interesection

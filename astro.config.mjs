@@ -8,6 +8,7 @@ const env = loadEnv('', process.cwd(), 'STORYBLOK')
 
 // https://astro.build/config
 export default defineConfig({
+    build: { cache: true },
     site: 'https://melborp.art',
     integrations: [
         storyblok({

@@ -20,7 +20,7 @@ const bg =
         : proyecto.content.bloques[0].poster.filename + optim
 ---
 
-<article data-slug={slug} id={`${proyecto.slug}`} class={`mbp__wrapper proyecto_tipo ${par ? 'tipo_2' : 'tipo_1'}`}>
+<mbp-homep data-slug={slug} id={`${proyecto.slug}`} class={`mbp__wrapper proyecto_tipo ${par ? 'tipo_2' : 'tipo_1'}`}>
     <div class="proyecto_over">
         <Image src={bg} alt={proyecto.content.nombre} width="1024" height="768" />
     </div>
@@ -93,7 +93,7 @@ const bg =
                     height="600"
                 />
             ) : (
-                <video muted playsinline loop preload="" autoplay class="img-2">
+                <video id="video_1" muted playsinline loop preload="" autoplay class="img-2">
                     <source src={proyecto.content.home[0].media1.filename} type="video/mp4" />
                 </video>
             )
@@ -110,7 +110,7 @@ const bg =
                     height="700"
                 />
             ) : (
-                <video muted playsinline loop preload="" autoplay class="img-2">
+                <video id="video_2" muted playsinline loop preload="" autoplay class="img-2">
                     <source src={proyecto.content.home[0].media2.filename} type="video/mp4" />
                 </video>
             )
@@ -127,13 +127,13 @@ const bg =
                     height="600"
                 />
             ) : (
-                <video muted playsinline loop preload="" autoplay class="img-3">
+                <video id="video_3" muted playsinline loop preload="" autoplay class="img-3">
                     <source src={proyecto.content.home[0].media3.filename} type="video/mp4" />
                 </video>
             )
         }
     </div>
-</article>
+</mbp-homep>
 
 <style define:vars={{ poster }}>
     .proyecto_tipo {
@@ -274,3 +274,41 @@ const bg =
         }
     }
 </style>
+
+<script>
+    class MbpHome extends HTMLElement {
+        constructor() {
+            super()
+
+            if (this.querySelector('#video_1') && this.querySelector('#video_2') && this.querySelector('#video_3')) {
+                const videos = this.querySelectorAll('video')
+
+                // Check if all videos have loaded
+                let loadedCount = 0
+                videos.forEach((video) => {
+                    video.pause() // Pause all videos
+                    video.addEventListener('loadeddata', () => {
+                        loadedCount++
+                        if (loadedCount === videos.length) {
+                            observer.observe(this)
+                        }
+                    })
+                })
+
+                const callback = (entries, observer) => {
+                    entries.forEach((entry) => {
+                        this.playVideos()
+                    })
+                }
+                const observer = new IntersectionObserver(callback)
+            }
+        }
+        playVideos() {
+            const videos = document.querySelectorAll('video') // Select all video elements
+            videos.forEach((video) => {
+                video.play() // Play each video
+            })
+        }
+    }
+    customElements.define('mbp-homep', MbpHome)
+</script>

@@ -73,7 +73,7 @@ const normalizeW = (value: number) => {
                     {item.imagen.filename && (
                         <>
                             {item.imagen.filename.split('.').pop() != 'mp4' && (
-                                <img src={item.imagen.filename + '/m/'} alt="Melborp" />
+                                <img src={item.imagen.filename + '/m/'} class={'media_' + media._uid} alt="Melborp" />
                             )}
                             {item.imagen.filename.split('.').pop() == 'mp4' && (
                                 <video muted playsinline loop preload="" autoplay>
@@ -410,6 +410,10 @@ const normalizeW = (value: number) => {
         @apply text-2xl font-light;
         --font-width: 80;
         font-variation-settings: 'wdth' var(--font-width, 100);
+    }
+    img.media_4824bc36-abfb-4f33-b151-c66b0e2fa3e3,
+    img.media_107b2aef-20e5-473a-9379-0e455110e72a {
+        @apply !w-full;
     }
 </style>
 

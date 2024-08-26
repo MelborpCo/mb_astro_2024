@@ -76,9 +76,11 @@ const normalizeW = (value: number) => {
                                 <img src={item.imagen.filename + '/m/'} class={'media_' + media._uid} alt="Melborp" />
                             )}
                             {item.imagen.filename.split('.').pop() == 'mp4' && (
-                                <video muted playsinline loop preload="" autoplay>
-                                    <source src={item.imagen.filename} type="video/mp4" />
-                                </video>
+                                <mbp-video-broken>
+                                    <video muted playsinline loop preload="" autoplay>
+                                        <source src={item.imagen.filename} type="video/mp4" />
+                                    </video>
+                                </mbp-video-broken>
                             )}
                         </>
                     )}
@@ -424,5 +426,38 @@ const normalizeW = (value: number) => {
             super()
         }
     }
-    customElements.define('mbp-broken', MbpBroken)
+    customElements.define('mbp-broken-', MbpBroken)
+
+    class MbpVideo extends HTMLElement {
+        constructor() {
+            super()
+            const id = this.dataset.id
+            const video = this.querySelector('video')
+            const autoplay = video.getAttribute('autoplay') == '' ? true : false
+
+            const playVideo = (e) => {
+                video?.play()
+            }
+            const stopVideo = (e) => {
+                video?.pause()
+                video.currentTime = 0
+            }
+            // interesection
+            function displayEntry(entry) {
+                if (entry.isIntersecting) {
+                    playVideo(null)
+                } else {
+                    stopVideo(null)
+                }
+            }
+            const callback = (entries, observer) => {
+                entries.forEach((entry) => {
+                    displayEntry(entry)
+                })
+            }
+            const observer = new IntersectionObserver(callback)
+            observer.observe(this)
+        }
+    }
+    customElements.define('mbp-video-broken', MbpVideo)
 </script>

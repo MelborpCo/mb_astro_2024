@@ -7,9 +7,12 @@ const storyblokApi = useStoryblokApi()
 
 console.log('SAPI', import.meta.env.STORYBLOK_TOKEN_PROD)
 
+const dev = import.meta.env.DEV
+
 const { data } = await storyblokApi
     .get('cdn/stories/contacto', {
-        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        version: dev ? 'draft' : 'published',
+        cv: 0,
     })
     .catch((e) => {
         console.error(e)

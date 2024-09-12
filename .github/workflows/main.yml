@@ -25,17 +25,15 @@ jobs:
                   npm run build
               env:
                   STORYBLOK_TOKEN_PROD: aS3TGOJExVyKLIUrtyiIeAtt
-                  STORYBLOK_TOKEN_PREV: aS3TGOJExVyKLIUrtyiIeAtt
+                  STORYBLOK_TOKEN_PREV: 7sDrNI4uruLzNuscT59e4Qtt
                   STORYBLOK_TOKEN: aS3TGOJExVyKLIUrtyiIeAtt
 
             - name: Sync files
               uses: SamKirkland/FTP-Deploy-Action@4.2.0
               with:
-                  server: melborp.art 
+                  server: melborp.art
                   username: mbp
                   password: ${{ secrets.ftp_password }}
                   local-dir: ./dist/
                   server-dir: /astro.melborp.art/
                   dangerous-clean-slate: false
-
-                  

@@ -5,9 +5,11 @@ import ProjectWork from '../../components/ProjectWork.astro'
 import { useStoryblokApi } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
+const dev = import.meta.env.DEV
+
 const { data } = await storyblokApi
     .get('cdn/stories/work', {
-        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        version: dev ? 'draft' : 'published',
         resolve_relations: 'work.proyectos',
     })
     .catch((e) => {

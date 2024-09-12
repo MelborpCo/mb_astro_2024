@@ -5,15 +5,21 @@ import TeamBroken from '../components/TeamBroken.astro'
 import { useStoryblokApi } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
+const dev = import.meta.env.DEV
+
 const { data } = await storyblokApi
     .get('cdn/stories/team', {
-        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        // version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        version: dev ? 'draft' : 'published',
+        cv: 0,
     })
     .catch((e) => {
-        console.error(e)
+        console.error('error', e)
         return { data: {} }
     })
 const story = data.story
+
+const { blok } = Astro.props
 ---
 
 <!-- <StoryblokComponent blok={story.content} /> -->
@@ -30,7 +36,7 @@ const story = data.story
     <section class="team_people mbp__wrapper">
         <div class="team_people_grid">
             {
-                story.content.teams.map((team, i) => {
+                story.content.teams.map((team) => {
                     return <TeamBroken media={team} />
                 })
             }

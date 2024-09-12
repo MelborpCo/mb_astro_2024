@@ -7,16 +7,12 @@ import ProjectWork from '../../components/ProjectWork.astro'
 import { useStoryblokApi, renderRichText } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
-const isProd = import.meta.env.PROD
-
-// https://api.storyblok.com/v2/cdn/links?cv=1708977337&per_page=100&starts_with=work/&token=7sDrNI4uruLzNuscT59e4Qtt&version=published
-
 export async function getStaticPaths() {
     const storyblokApi = useStoryblokApi()
 
     const { data } = await storyblokApi
         .get('cdn/links', {
-            version: 'published',
+            version: import.meta.env.DEV ? 'draft' : 'published',
             per_page: 100,
             cv: 0,
             starts_with: 'work/',
@@ -113,7 +109,9 @@ const class_h2 =
         <div class="proyecto_over">
             <Image class="init" src={bg} alt={story.content.nombre} width="1024" height="768" />
         </div>
-        <div class="proyecto_head">
+        <div
+            class={`proyecto_head ${story.content.media_top ? (story.content.media_top == true ? 'si_top' : 'no_top') : 'no_top'}`}
+        >
             <div class="proyecto_info mbp__wrapper">
                 <div class="proyecto_info_text">
                     <div class="regresar mbp_ap">
@@ -270,7 +268,11 @@ const class_h2 =
             </section>
         )
     }
-    <section class="proyecto_media">
+    <!-- {story.content.media_top}
+    {`proyecto_media ${story.content.media_top ? (story.content.media_top == true ? 'si_top' : 'no_top') : 'no_top'}`} -->
+    <section
+        class={`proyecto_media ${story.content.media_top ? (story.content.media_top == true ? 'si_top' : 'no_top') : 'no_top'}`}
+    >
         {
             story.content.bloques.map((media) => {
                 return <ProyectoMedia media={media} />
@@ -410,6 +412,9 @@ const class_h2 =
         }
         .proyecto_head {
             @apply z-20 col-start-1 col-end-2 row-start-1 row-end-2 pb-20 pt-28 md:opacity-0;
+            &.si_top {
+                @apply !pb-4;
+            }
             .proyecto_info {
                 @apply flex flex-col-reverse md:flex-row md:items-stretch md:justify-between md:gap-8;
                 .proyecto_info_text {
@@ -562,9 +567,11 @@ const class_h2 =
     }
     .proyecto_media {
         @apply flex flex-col py-16 lg:gap-y-36 2xl:gap-y-44;
+        &.si_top {
+            @apply !pt-0;
+        }
     }
     .next-proy {
         @apply pt-36;
     }
-    
 </style>

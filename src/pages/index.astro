@@ -11,9 +11,11 @@ import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
 import { useStoryblokApi } from '@storyblok/astro'
 const storyblokApi = useStoryblokApi()
 
+const dev = import.meta.env.DEV
+
 const { data } = await storyblokApi
     .get('cdn/stories/home', {
-        version: 'published', // import.meta.env.DEV ? "draft" : "published",
+        version: dev ? 'draft' : 'published',
         resolve_relations: 'page.proyectos,page.destacado',
         cv: 0,
     })

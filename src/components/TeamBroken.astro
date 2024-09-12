@@ -109,7 +109,7 @@ media.team.forEach((item) => {
                         autoAlpha: 1,
                         duration: 0.5,
                         ease: 'power2.inOut',
-                    },
+                    }
                 )
                 tl_MbpProyectoMedia.fromTo(
                     `${id} .teamb img`,
@@ -124,7 +124,7 @@ media.team.forEach((item) => {
                         stagger: 0.2,
                         ease: 'power2.inOut',
                     },
-                    '-=0.2',
+                    '-=0.2'
                 )
 
                 // interesection
@@ -406,10 +406,19 @@ media.team.forEach((item) => {
                     }
                     h3 {
                         line-height: 1em !important;
-                        @apply mb-2 uppercase;
+                        @apply text-shadow-sm mb-2 uppercase shadow-white/20;
                     }
                     h4 {
                         line-height: 1em !important;
+                        @apply text-shadow-sm shadow-white/20;
+                    }
+                }
+                .foto {
+                    @apply transition-opacity duration-300 ease-in-out;
+                }
+                &:hover {
+                    .foto {
+                        @apply lg:opacity-50;
                     }
                 }
             }

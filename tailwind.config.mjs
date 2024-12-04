@@ -56,7 +56,7 @@ export default {
                 home3: '6 / 6',
                 home4: '5 / 8',
                 header: '953 / 1155',
-                team: '682 / 1155',
+                team: '800 / 864',
             },
             textShadow: {
                 sm: '0 1px 2px var(--tw-shadow-color)',

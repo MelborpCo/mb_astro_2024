@@ -49,6 +49,9 @@ media.team.forEach((item) => {
                 <>
                     <div id={'team-' + item._uid} class={itemClasses[i]}>
                         <div class="item_int">
+                            <div class="foto">
+                                <img src={item.foto.filename + '/m/'} alt={item.nombre} class="vlazy" />
+                            </div>
                             <div class="info anim">
                                 <svg class="arrow-team" viewBox="0 0 45 45">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -69,12 +72,10 @@ media.team.forEach((item) => {
                                         </g>
                                     </g>
                                 </svg>
-                                <h3>{item.nombre}</h3>
-                                <h4>{item.cargo}</h4>
-                            </div>
-
-                            <div class="foto">
-                                <img src={item.foto.filename + '/m/'} alt={item.nombre} class="vlazy" />
+                                <div class="info_nombres">
+                                    <h3>{item.nombre}</h3>
+                                    <h4>{item.cargo}</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -392,25 +393,26 @@ media.team.forEach((item) => {
                 @apply lg:mt-32;
             }
             .item_int {
-                @apply mb-12 grid grid-cols-6 grid-rows-6 gap-2 lg:mb-0;
+                @apply mb-12 flex flex-col gap-3 ;
                 .hv {
                     @apply z-30 col-start-1 col-end-5 row-start-1 row-end-6 hidden p-8 text-sm leading-tight;
                 }
                 .foto {
-                    @apply z-10 col-start-1 col-end-7 row-start-1 row-end-7 overflow-hidden;
+                    @apply z-10 col-start-1 col-end-7 row-start-1 row-end-6 overflow-hidden;
                 }
                 .info {
-                    @apply z-20;
+                    @apply z-20 col-start-1 col-end-7 row-start-6 row-end-7 flex items-center justify-between gap-4;
                     .arrow-team {
-                        @apply mx-auto mb-2 h-6 w-6;
+                        @apply h-6 w-6 hidden;
                     }
                     h3 {
-                        line-height: 1em !important;
-                        @apply text-shadow-sm mb-2 uppercase shadow-white/20;
+                        @apply text-base;
                     }
                     h4 {
-                        line-height: 1em !important;
-                        @apply text-shadow-sm shadow-white/20;
+                        @apply text-sm leading-none;
+                    }
+                    div{
+                        @apply text-left;
                     }
                 }
                 .foto {
@@ -422,7 +424,7 @@ media.team.forEach((item) => {
                     }
                 }
             }
-            &.x-left {
+            /* &.x-left {
                 .info {
                     @apply col-start-1 col-end-4 ml-4 lg:ml-0;
                 }
@@ -512,7 +514,7 @@ media.team.forEach((item) => {
                 .info {
                     @apply lg:pb-4;
                 }
-            }
+            }*/
 
             &.full {
             }

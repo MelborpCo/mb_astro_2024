@@ -11,6 +11,8 @@ interface media {
     abajo: string
     arriba: string
     descripcion: any
+    text_align: string
+    font_size: string
 }
 
 const { media } = Astro.props
@@ -42,6 +44,12 @@ media.broken_item.forEach((item: media) => {
     }
     if (item.arriba !== '') {
         classAr.push(`pt-${item.arriba}`)
+    }
+    if (item.text_align !== '') {
+        classAr.push(`${item.text_align}`)
+    }
+    if (item.font_size !== '') {
+        classAr.push(`text-[${item.font_size}]`)
     }
     itemClasses.push(classAr.join(' '))
     let desc: any = false

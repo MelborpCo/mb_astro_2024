@@ -1,4 +1,6 @@
 ---
+// import { ViewTransitions } from 'astro:transitions'
+
 import '@awesome.me/kit-6328404de0/icons/css/all.min.css'
 
 import { GoogleFontsOptimizer } from 'astro-google-fonts-optimizer'
@@ -62,6 +64,7 @@ const { story_seo } = Astro.props
         <GoogleFontsOptimizer
             url="https://fonts.googleapis.com/css2?family=Anton&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap"
         />
+        
     </head>
 
     <body class={!isProd ? 'debug-screens' : ''}>
